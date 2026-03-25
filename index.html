@@ -1467,22 +1467,13 @@ function createPolaroid(src, idx, size) {
   wrap.style.top       = top  + 'px';
   wrap.style.transform = 'rotate(' + rot + 'deg)';
 
-  // imagem
+  // --- NOVO CÓDIGO DA IMAGEM (POLAROID REAL) ---
   const imgWrap = document.createElement('div');
-  imgWrap.className = 'polaroid-img-wrap';
-  imgWrap.style.width  = sz + 'px';
-  imgWrap.style.height = sz + 'px';
-  const img = document.createElement('img');
-  img.src = src;
-  img.style.width      = sz + 'px';
-  img.style.height     = sz + 'px';
-  img.style.minWidth   = sz + 'px';
-  img.style.minHeight  = sz + 'px';
-  img.style.objectFit  = 'contain';
-  img.style.objectPosition = 'center center';
-  img.style.display    = 'block';
-  img.style.boxSizing  = 'content-box';
-  imgWrap.appendChild(img);
+  imgWrap.className = 'polaroid-photo'; // Usa a classe que criamos no CSS
+  imgWrap.style.backgroundImage = `url('${src}')`;
+  imgWrap.style.width = sz + 'px'; 
+  imgWrap.style.height = (sz * 0.9) + 'px'; // Altura proporcional à largura
+  // O restante do visual (preenchimento) é controlado pelo CSS (.polaroid-photo)
 
   // legenda editável individual
   const caption = document.createElement('input');
