@@ -78,22 +78,135 @@ h1,h2,h3 { font-family: 'Playfair Display', serif; }
 .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; }
 .card-title { font-size: 13px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px; }
 
-/* ===== LIVRE ===== */
+/* ===== LIVRE (VERSÃO CORRIGIDA) ===== */
 .livre-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; }
-.canvas-wrap { background: var(--warm); border: 2px dashed var(--border); border-radius: var(--r); height: calc(100vh - 130px); min-height: 480px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 20px; position: relative; overflow: hidden; }
+
+.canvas-wrap { 
+    background: var(--warm); 
+    border: 2px dashed var(--border); 
+    border-radius: var(--r); 
+    height: calc(100vh - 130px); 
+    min-height: 480px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 16px; 
+    padding: 20px; 
+    position: relative; 
+    overflow: hidden; 
+}
+
 .canvas-wrap.has-photos { align-items: unset; justify-content: unset; }
+
+/* Estilo da Moldura Polaroid no Modo Livre */
+.polaroid-item {
+    background: #ffffff;
+    padding: 12px 12px 35px 12px; /* Espaço maior embaixo para a legenda */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    border-radius: 2px;
+    position: absolute;
+    cursor: move;
+    width: 200px;
+    z-index: 10;
+    transition: transform 0.2s;
+}
+
+/* Área da Foto dentro da Polaroid */
+.polaroid-photo {
+    width: 100%;
+    height: 180px;
+    background-color: #f0f0f0;
+    background-size: cover; /* Faz a foto preencher tudo sem sobrar fundo branco */
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid #eee;
+}
+
+/* Legenda da Polaroid */
+.polaroid-caption {
+    width: 100%;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: #333;
+    margin-top: 10px;
+    outline: none;
+    min-height: 1.2em;
+    word-wrap: break-word;
+}
+
 .canvas-frame { position: absolute; inset: 0; pointer-events: none; z-index: 0; border-radius: 6px; }
-.canvas-textbox { position: absolute; background: rgba(255,255,255,0.85); border: 1.5px dashed #bbb; border-radius: 6px; padding: 8px 12px; font-family: 'Playfair Display', serif; font-size: 13px; color: #333; min-width: 120px; min-height: 36px; cursor: move; z-index: 5; resize: both; overflow: hidden; }
-.canvas-textbox:focus-within { border-color: var(--accent); background: rgba(255,255,255,0.96); }
-.canvas-textbox textarea { border: none; background: transparent; font-family: inherit; font-size: inherit; color: inherit; resize: none; outline: none; width: 100%; display: block; }
-.canvas-textbox .tb-remove { position: absolute; top: -8px; right: -8px; width: 18px; height: 18px; background: #e74c3c; border: none; border-radius: 50%; color: #fff; font-size: 12px; cursor: pointer; display: none; align-items: center; justify-content: center; line-height: 1; }
+
+/* Caixas de Texto */
+.canvas-textbox { 
+    position: absolute; 
+    background: rgba(255,255,255,0.9); 
+    border: 1.5px dashed var(--accent); 
+    border-radius: 6px; 
+    padding: 8px 12px; 
+    font-family: 'Playfair Display', serif; 
+    font-size: 14px; 
+    color: #333; 
+    min-width: 120px; 
+    min-height: 36px; 
+    cursor: move; 
+    z-index: 15; 
+    resize: both; 
+    overflow: hidden; 
+}
+
+.canvas-textbox textarea { 
+    border: none; 
+    background: transparent; 
+    font-family: inherit; 
+    font-size: inherit; 
+    color: inherit; 
+    resize: none; 
+    outline: none; 
+    width: 100%; 
+    display: block; 
+}
+
+.canvas-textbox .tb-remove { 
+    position: absolute; 
+    top: -8px; 
+    right: -8px; 
+    width: 20px; 
+    height: 20px; 
+    background: #e74c3c; 
+    border: none; 
+    border-radius: 50%; 
+    color: #fff; 
+    font-size: 12px; 
+    cursor: pointer; 
+    display: none; 
+    align-items: center; 
+    justify-content: center; 
+}
+
 .canvas-textbox:hover .tb-remove { display: flex; }
+
 .drop-hint { text-align: center; pointer-events: none; }
 .drop-hint button, .drop-hint label { pointer-events: all; }
 .drop-hint .icon { font-size: 36px; margin-bottom: 8px; opacity: 0.4; }
 .drop-hint p { font-size: 14px; color: var(--muted); }
-.drop-hint small { font-size: 12px; color: var(--muted); opacity: 0.7; }
-.upload-btn-big { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; background: var(--white); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--ink); transition: all 0.15s; margin-top: 8px; }
+
+.upload-btn-big { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+    padding: 10px 22px; 
+    background: var(--white); 
+    border: 1px solid var(--border); 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-size: 14px; 
+    color: var(--ink); 
+    transition: all 0.15s; 
+    margin-top: 8px; 
+}
+
 .upload-btn-big:hover { background: var(--accent); color: var(--white); border-color: var(--accent); }
 #fileInput { display: none; }
 
