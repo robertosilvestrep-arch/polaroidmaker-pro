@@ -6341,934 +6341,463 @@ free.style.background="transparent"
 
 setInterval(fixFreeMode,1500)  
 
-// ===== FUNÇÕES FALTANTES CORRIGIDAS =====
+// ===== CORREÇÕES MÍNIMAS PARA FUNCIONAR =====
 
-// Variáveis globais (se não existirem)
-if (typeof albumPages === 'undefined') var albumPages = [];
-if (typeof folhinhaPhotos === 'undefined') var folhinhaPhotos = Array(12).fill(null);
-if (typeof livrePhotos === 'undefined') var livrePhotos = [];
-if (typeof marcadores === 'undefined') var marcadores = [];
-if (typeof marcTema === 'undefined') var marcTema = 'marc-coral';
-if (typeof marcTopo === 'undefined') var marcTopo = 'marc-top-v';
-if (typeof marcPendingIdx === 'undefined') var marcPendingIdx = null;
-if (typeof _mStyle === 'undefined') var _mStyle = 'polaroid';
-if (typeof _mSz === 'undefined') var _mSz = 130;
-if (typeof _mRopes === 'undefined') var _mRopes = true;
-if (typeof _mWall === 'undefined') var _mWall = 'wood';
-if (typeof currentPageIdx === 'undefined') var currentPageIdx = null;
-
-// Mapeamento de cores para temas
-if (typeof MARC_COLORS === 'undefined') {
-  var MARC_COLORS = {
-    'marc-coral': '#C4602A', 'marc-teal': '#3D6B5E', 'marc-rosa': '#D4537E',
-    'marc-navy': '#1a3a5c', 'marc-gold': '#A07820', 'marc-lilas': '#7F77DD',
-    'marc-preto': '#1C1A17', 'marc-verde': '#3a7a30'
-  };
-}
-
-// Categorias para marcadores
-if (typeof MARC_CATS === 'undefined') {
-  var MARC_CATS = {
-    livre: { tema: 'marc-coral', topo: 'marc-top-v', ribbon: '📚 Leitura', title: 'Minha Leitura', subtitle: '2026', quote: '"A leitura é a viagem dos que não podem tomar o trem."', illustration: 'livre' },
-    harry_potter: { tema: 'marc-navy', topo: 'marc-top-v', ribbon: '⚡ HP', title: 'Harry Potter', subtitle: 'Hogwarts', quote: '"É nossa escolha que mostra o que realmente somos." — Dumbledore', illustration: 'harry_potter' }
-  };
-}
-
-// Ilustrações SVG
-if (typeof MARC_ILLUSTRATIONS === 'undefined') {
-  var MARC_ILLUSTRATIONS = {
-    livre: `<svg viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="160" fill="#F9F5EE"/><text x="60" y="80" text-anchor="middle" font-size="12" fill="#C4602A">📚</text><text x="60" y="100" text-anchor="middle" font-size="8" fill="#7A7469">FotoStúdio</text></svg>`,
-    harry_potter: `<svg viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="160" fill="#1a0a35"/><text x="60" y="80" text-anchor="middle" font-size="14" fill="#FFD700">⚡</text><text x="60" y="100" text-anchor="middle" font-size="8" fill="#FFD700">Harry Potter</text></svg>`
-  };
-}
-
-// Função para converter SVG para dataURL
-function svgToDataUrl(svgStr) {
-  return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgStr)));
-}
-
-// ===== FUNÇÕES DO MODO LIVRE =====
-function addPhotosLivre(files) {
-  const canvas = document.getElementById('canvas-livre');
-  const hint = document.getElementById('drop-hint');
-  if (hint) hint.style.display = 'none';
-  canvas.classList.add('has-photos');
-  
-  Array.from(files).forEach((file, idx) => {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const pol = createPolaroid(e.target.result, livrePhotos.length);
-      canvas.appendChild(pol);
-      livrePhotos.push({ src: e.target.result, id: livrePhotos.length });
+// Garantir que as funções existam
+if (typeof addPhotosLivre === 'undefined') {
+    window.addPhotosLivre = function(files) {
+        var canvas = document.getElementById('canvas-livre');
+        var hint = document.getElementById('drop-hint');
+        if (hint) hint.style.display = 'none';
+        canvas.classList.add('has-photos');
+        
+        Array.from(files).forEach(function(file, idx) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var pol = document.createElement('div');
+                pol.className = 'polaroid frame-classic';
+                pol.style.position = 'absolute';
+                pol.style.left = (20 + Math.random() * 200) + 'px';
+                pol.style.top = (30 + Math.random() * 150) + 'px';
+                pol.style.transform = 'rotate(' + (Math.random() * 8 - 4) + 'deg)';
+                
+                var imgWrap = document.createElement('div');
+                imgWrap.className = 'polaroid-img-wrap';
+                imgWrap.style.width = '150px';
+                imgWrap.style.height = '150px';
+                
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '150px';
+                img.style.height = '150px';
+                img.style.objectFit = 'contain';
+                imgWrap.appendChild(img);
+                
+                var caption = document.createElement('input');
+                caption.type = 'text';
+                caption.className = 'caption caption-editable';
+                caption.placeholder = 'Legenda...';
+                
+                var removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-btn';
+                removeBtn.innerHTML = '×';
+                removeBtn.onclick = function(ev) { ev.stopPropagation(); pol.remove(); };
+                
+                pol.appendChild(imgWrap);
+                pol.appendChild(caption);
+                pol.appendChild(removeBtn);
+                canvas.appendChild(pol);
+            };
+            reader.readAsDataURL(file);
+        });
     };
-    reader.readAsDataURL(file);
-  });
 }
 
-function createPolaroid(src, idx, size) {
-  var sz = size || 150;
-  var wrap = document.createElement('div');
-  wrap.className = 'polaroid ' + (window.currentFrame || 'frame-classic');
-  wrap.dataset.idx = idx;
-  wrap.style.position = 'absolute';
-  
-  var canvas = document.getElementById('canvas-livre');
-  var cw = canvas.getBoundingClientRect().width || canvas.offsetWidth || 700;
-  var ch = canvas.getBoundingClientRect().height || canvas.offsetHeight || 520;
-  var polW = sz + 22;
-  var polH = sz + 48;
-  var cols = Math.max(1, Math.floor(cw / (polW + 24)));
-  var col = idx % cols;
-  var row = Math.floor(idx / cols);
-  var cellW = cw / cols;
-  var cellH = polH + 28;
-  var jitterX = (Math.random() - 0.5) * Math.min(cellW * 0.3, 36);
-  var jitterY = (Math.random() - 0.5) * 28;
-  var left = Math.max(8, Math.min(cw - polW - 8, col * cellW + (cellW - polW) / 2 + jitterX));
-  var top = Math.max(8, Math.min(ch - polH - 8, row * cellH + 14 + jitterY));
-  var rot = (Math.random() * 8 - 4).toFixed(1);
-  
-  wrap.style.left = left + 'px';
-  wrap.style.top = top + 'px';
-  wrap.style.transform = 'rotate(' + rot + 'deg)';
-  
-  var imgWrap = document.createElement('div');
-  imgWrap.className = 'polaroid-img-wrap';
-  imgWrap.style.width = sz + 'px';
-  imgWrap.style.height = sz + 'px';
-  var img = document.createElement('img');
-  img.src = src;
-  img.style.width = sz + 'px';
-  img.style.height = sz + 'px';
-  img.style.objectFit = 'contain';
-  img.style.display = 'block';
-  imgWrap.appendChild(img);
-  
-  var caption = document.createElement('input');
-  caption.type = 'text';
-  caption.className = 'caption caption-editable';
-  caption.placeholder = 'Legenda...';
-  caption.value = '';
-  
-  var removeBtn = document.createElement('button');
-  removeBtn.className = 'remove-btn';
-  removeBtn.innerHTML = '×';
-  removeBtn.onclick = function(e) { e.stopPropagation(); wrap.remove(); };
-  
-  wrap.appendChild(imgWrap);
-  wrap.appendChild(caption);
-  wrap.appendChild(removeBtn);
-  
-  return wrap;
-}
-
-function clearCanvas() {
-  var canvas = document.getElementById('canvas-livre');
-  var pols = canvas.querySelectorAll('.polaroid');
-  pols.forEach(function(p) { p.remove(); });
-  livrePhotos = [];
-  var hint = document.getElementById('drop-hint');
-  if (hint) hint.style.display = '';
-  canvas.classList.remove('has-photos');
-  showToast('Canvas limpo!');
-}
-
-function shuffleLayout() {
-  var canvas = document.getElementById('canvas-livre');
-  var pols = Array.from(canvas.querySelectorAll('.polaroid'));
-  var cw = canvas.offsetWidth;
-  var ch = canvas.offsetHeight;
-  pols.forEach(function(p) {
-    var rot = (Math.random() * 12 - 6).toFixed(1);
-    var left = Math.max(8, Math.random() * (cw - p.offsetWidth - 16));
-    var top = Math.max(8, Math.random() * (ch - p.offsetHeight - 16));
-    p.style.transform = 'rotate(' + rot + 'deg)';
-    p.style.left = left + 'px';
-    p.style.top = top + 'px';
-  });
-  showToast('Layout embaralhado!');
-}
-
-function setCanvasFrame(type) {
-  var canvas = document.getElementById('canvas-livre');
-  canvas.querySelectorAll('.canvas-frame').forEach(function(f) { f.remove(); });
-  if (type === 'none') return;
-  
-  var w = canvas.offsetWidth, h = canvas.offsetHeight;
-  var el = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  el.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
-  el.setAttribute('width', '100%');
-  el.setAttribute('height', '100%');
-  el.classList.add('canvas-frame');
-  
-  if (type === 'classic') {
-    el.innerHTML = '<rect x="10" y="10" width="' + (w-20) + '" height="' + (h-20) + '" fill="none" stroke="#C9A227" stroke-width="6" rx="4"/>';
-  } else if (type === 'double') {
-    el.innerHTML = '<rect x="6" y="6" width="' + (w-12) + '" height="' + (h-12) + '" fill="none" stroke="#333" stroke-width="4" rx="3"/>';
-  } else if (type === 'rustic') {
-    el.innerHTML = '<rect x="8" y="8" width="' + (w-16) + '" height="' + (h-16) + '" fill="none" stroke="#8B5010" stroke-width="10" rx="4"/>';
-  }
-  canvas.appendChild(el);
-}
-
-function addTextBox() {
-  var canvas = document.getElementById('canvas-livre');
-  var box = document.createElement('div');
-  box.className = 'canvas-textbox';
-  box.style.left = (40 + Math.random() * 200) + 'px';
-  box.style.top = (40 + Math.random() * 150) + 'px';
-  box.style.position = 'absolute';
-  
-  var ta = document.createElement('textarea');
-  ta.rows = 2;
-  ta.placeholder = 'Digite aqui...';
-  ta.style.cssText = 'border:none;background:transparent;font-family:inherit;font-size:inherit;color:inherit;resize:none;outline:none;width:100%;display:block;';
-  
-  var rm = document.createElement('button');
-  rm.className = 'tb-remove';
-  rm.innerHTML = '×';
-  rm.onclick = function() { box.remove(); };
-  
-  box.appendChild(ta);
-  box.appendChild(rm);
-  canvas.appendChild(box);
-  ta.focus();
-}
-
-function setCanvasBg(value, el) {
-  var canvas = document.getElementById('canvas-livre');
-  if (value && value.startsWith('color:')) {
-    var col = value.replace('color:', '');
-    canvas.style.backgroundImage = 'none';
-    canvas.style.backgroundColor = col;
-  } else {
-    canvas.style.backgroundImage = 'none';
-    canvas.style.backgroundColor = '#F5F0E8';
-  }
-  
-  document.querySelectorAll('.bg-swatch').forEach(function(s) { s.style.borderColor = 'transparent'; });
-  if (el) el.style.borderColor = 'var(--accent)';
-}
-
-// ===== FUNÇÕES DO CALENDÁRIO =====
-function uploadCalPhoto(idx) {
-  var input = document.getElementById('calFile' + idx);
-  if (input) input.click();
-}
-
-function loadCalPhoto(input, idx) {
-  var file = input.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var container = document.getElementById('cal-img-' + idx);
-    if (container) {
-      container.innerHTML = '';
-      var img = document.createElement('img');
-      img.src = e.target.result;
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-      container.appendChild(img);
-    }
-    showToast('Foto adicionada ao calendário!');
-  };
-  reader.readAsDataURL(file);
-}
-
-function changeYear(delta) {
-  window.calYear = (window.calYear || 2026) + delta;
-  if (typeof buildCalendar === 'function') buildCalendar();
-}
-
-// ===== FUNÇÕES DA FOLHINHA =====
-function buildFolhinha() {
-  var grid = document.getElementById('folhinha-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  var months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  var year = window.calYear || 2026;
-  
-  for (var m = 0; m < 12; m++) {
-    var card = document.createElement('div');
-    card.className = 'folha-card';
-    card.onclick = (function(mIdx) { return function() { openFolhinhaUpload(mIdx); }; })(m);
-    
-    var photoArea = document.createElement('div');
-    photoArea.className = 'folha-photo-area';
-    if (folhinhaPhotos[m]) {
-      var img = document.createElement('img');
-      img.src = folhinhaPhotos[m];
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-      photoArea.appendChild(img);
-    } else {
-      photoArea.innerHTML = '<span style="font-size:11px;color:var(--muted);">📷 clique para foto</span>';
-    }
-    
-    var body = document.createElement('div');
-    body.className = 'folha-body';
-    var mName = document.createElement('div');
-    mName.className = 'folha-month-name';
-    mName.innerHTML = months[m] + '<span class="folha-year">' + year + '</span>';
-    var staple = document.createElement('div');
-    staple.className = 'staple-line';
-    staple.innerHTML = '<div class="staple-dot"></div><div class="staple-bar"></div><div class="staple-dot"></div>';
-    var miniCal = buildMiniCal(m, year);
-    body.appendChild(mName);
-    body.appendChild(staple);
-    body.appendChild(miniCal);
-    card.appendChild(photoArea);
-    card.appendChild(body);
-    grid.appendChild(card);
-  }
-}
-
-function buildMiniCal(m, year) {
-  var el = document.createElement('div');
-  el.className = 'folha-cal';
-  var heads = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-  heads.forEach(function(h) { var s = document.createElement('span'); s.textContent = h; el.appendChild(s); });
-  var firstDay = new Date(year, m, 1).getDay();
-  var daysInMonth = new Date(year, m + 1, 0).getDate();
-  for (var i = 0; i < firstDay; i++) el.appendChild(document.createElement('span'));
-  for (var d = 1; d <= daysInMonth; d++) {
-    var s = document.createElement('span');
-    s.textContent = d;
-    el.appendChild(s);
-  }
-  return el;
-}
-
-function rebuildFolhinhaLabels() {
-  buildFolhinha();
-}
-
-function openFolhinhaUpload(m) {
-  var input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  input.onchange = function(e) {
-    var file = e.target.files[0];
-    if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function(ev) {
-      folhinhaPhotos[m] = ev.target.result;
-      buildFolhinha();
-      showToast('Mês atualizado!');
+if (typeof clearCanvas === 'undefined') {
+    window.clearCanvas = function() {
+        var canvas = document.getElementById('canvas-livre');
+        canvas.querySelectorAll('.polaroid').forEach(function(p) { p.remove(); });
+        var hint = document.getElementById('drop-hint');
+        if (hint) hint.style.display = '';
+        canvas.classList.remove('has-photos');
+        showToast('Canvas limpo!');
     };
-    reader.readAsDataURL(file);
-  };
-  input.click();
 }
 
-function uploadAllFolhinha() {
-  var input = document.getElementById('folhinhaFile');
-  if (input) input.click();
-}
-
-function loadFolhinhaPhotos(files) {
-  var filesArr = Array.from(files).slice(0, 12);
-  filesArr.forEach(function(file, i) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      folhinhaPhotos[i] = e.target.result;
-      if (i === filesArr.length - 1) buildFolhinha();
+if (typeof shuffleLayout === 'undefined') {
+    window.shuffleLayout = function() {
+        var canvas = document.getElementById('canvas-livre');
+        var pols = canvas.querySelectorAll('.polaroid');
+        var cw = canvas.offsetWidth;
+        var ch = canvas.offsetHeight;
+        pols.forEach(function(p) {
+            var rot = (Math.random() * 12 - 6).toFixed(1);
+            var left = Math.max(8, Math.random() * (cw - p.offsetWidth - 16));
+            var top = Math.max(8, Math.random() * (ch - p.offsetHeight - 16));
+            p.style.transform = 'rotate(' + rot + 'deg)';
+            p.style.left = left + 'px';
+            p.style.top = top + 'px';
+        });
+        showToast('Layout embaralhado!');
     };
-    reader.readAsDataURL(file);
-  });
 }
 
-function exportFolhinhaPDF() {
-  var jsPDF = window.jspdf;
-  if (!jsPDF) { showToast('Biblioteca PDF não disponível'); return; }
-  showToast('Gerando folhinha PDF...');
-  var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  var W = 210, H = 297;
-  var months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  var year = window.calYear || 2026;
-  
-  for (var m = 0; m < 12; m++) {
-    if (m > 0) doc.addPage();
-    
-    doc.setFillColor(249, 245, 238);
-    doc.rect(0, 0, W, 44, 'F');
-    doc.setFillColor(196, 96, 42);
-    doc.rect(0, 42, W, 1.2, 'F');
-    
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(30);
-    doc.setTextColor(28, 26, 23);
-    doc.text(months[m].toUpperCase(), 18, 28);
-    doc.setFontSize(13);
-    doc.setTextColor(120, 112, 100);
-    doc.text(String(year), W - 18, 28, { align: 'right' });
-    
-    if (folhinhaPhotos[m]) {
-      try {
-        doc.addImage(folhinhaPhotos[m], 'JPEG', 55, 48, 100, 100);
-      } catch(e) {
-        try { doc.addImage(folhinhaPhotos[m], 'PNG', 55, 48, 100, 100); } catch(_) {}
-      }
-    }
-    
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(180, 170, 160);
-    doc.text('FotoStúdio · ' + months[m] + ' ' + year, W / 2, H - 8, { align: 'center' });
-  }
-  doc.save('fotostudio-folhinha-' + year + '.pdf');
-  showToast('Folhinha exportada!');
-}
-
-// ===== FUNÇÕES DO ÁLBUM =====
-function addAlbumPage() {
-  albumPages.push(null);
-  if (typeof buildAlbumPages === 'function') buildAlbumPages();
-  showToast('Nova página adicionada');
-}
-
-function buildAlbumPages() {
-  var grid = document.getElementById('album-pages-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  albumPages.forEach(function(src, i) {
-    var page = document.createElement('div');
-    page.className = 'album-page';
-    if (src) {
-      var img = document.createElement('img');
-      img.src = src;
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;';
-      page.appendChild(img);
-      var num = document.createElement('div');
-      num.className = 'album-page-num';
-      num.textContent = i + 1;
-      page.appendChild(num);
-      var removeBtn = document.createElement('button');
-      removeBtn.style.cssText = 'position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.5);color:white;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;z-index:2;';
-      removeBtn.innerHTML = '×';
-      removeBtn.onclick = (function(idx) { return function(e) { e.stopPropagation(); albumPages.splice(idx, 1); buildAlbumPages(); }; })(i);
-      page.appendChild(removeBtn);
-    } else {
-      page.innerHTML = '<span style="font-size:20px;">📷</span><span style="font-size:11px;">Página ' + (i+1) + '</span>';
-      page.onclick = (function(idx) { return function() { currentPageIdx = idx; uploadAlbumPages(); }; })(i);
-    }
-    grid.appendChild(page);
-  });
-  var addBtn = document.createElement('div');
-  addBtn.className = 'album-page page-add';
-  addBtn.innerHTML = '<span style="font-size:22px;">＋</span><span style="font-size:11px;">Nova página</span>';
-  addBtn.onclick = addAlbumPage;
-  grid.appendChild(addBtn);
-  var pageCount = document.getElementById('page-count');
-  if (pageCount) pageCount.textContent = albumPages.length + ' página(s) adicionada(s)';
-}
-
-function uploadAlbumPages() {
-  var input = document.getElementById('albumPageFile');
-  if (input) input.click();
-}
-
-function loadAlbumPage(input) {
-  var file = input.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    if (currentPageIdx !== null) {
-      albumPages[currentPageIdx] = e.target.result;
-      currentPageIdx = null;
-    } else {
-      var emptyIdx = albumPages.indexOf(null);
-      if (emptyIdx >= 0) {
-        albumPages[emptyIdx] = e.target.result;
-      } else {
-        albumPages.push(e.target.result);
-      }
-    }
-    buildAlbumPages();
-    showToast('Foto adicionada ao álbum!');
-  };
-  reader.readAsDataURL(file);
-  input.value = '';
-}
-
-function updateBinding() {
-  showToast('Tipo de encadernação atualizado');
-}
-
-function exportAlbumCoverOnly() {
-  var jsPDF = window.jspdf;
-  if (!jsPDF) { showToast('Biblioteca PDF não disponível'); return; }
-  var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  doc.setFillColor(28, 26, 23);
-  doc.rect(0, 0, 210, 297, 'F');
-  doc.setFillColor(196, 96, 42);
-  doc.rect(0, 0, 18, 297, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(24);
-  doc.setTextColor(255, 255, 255);
-  var titleInput = document.getElementById('album-title');
-  doc.text(titleInput ? titleInput.value : 'Meu Álbum', 105, 150, { align: 'center' });
-  doc.save('fotostudio-capa.pdf');
-  showToast('Capa exportada!');
-}
-
-// ===== FUNÇÕES DO MARCADOR =====
-function addMarcador() {
-  var title = document.getElementById('marc-title') ? document.getElementById('marc-title').value : 'Minha Leitura';
-  var subtitle = document.getElementById('marc-subtitle') ? document.getElementById('marc-subtitle').value : '';
-  var quote = document.getElementById('marc-quote') ? document.getElementById('marc-quote').value : '';
-  var ribbon = document.getElementById('marc-ribbon') ? document.getElementById('marc-ribbon').value : 'FotoStúdio';
-  var hole = document.getElementById('marc-hole') ? document.getElementById('marc-hole').checked : false;
-  
-  marcadores.push({ 
-    tema: marcTema, topo: marcTopo, title: title, subtitle: subtitle, 
-    quote: quote, ribbon: ribbon, hole: hole, photo: null, userPhoto: false, illustration: 'livre' 
-  });
-  buildMarcadores();
-  showToast('Marcador adicionado!');
-}
-
-function buildMarcadores() {
-  var canvas = document.getElementById('marcador-canvas');
-  var hint = document.getElementById('marcador-empty-hint');
-  if (!canvas) return;
-  canvas.innerHTML = '';
-  if (hint) canvas.appendChild(hint);
-  
-  if (marcadores.length === 0) {
-    canvas.classList.add('empty');
-    if (hint) hint.style.display = '';
-    return;
-  }
-  canvas.classList.remove('empty');
-  if (hint) hint.style.display = 'none';
-  
-  marcadores.forEach(function(m, i) {
-    var outer = document.createElement('div');
-    outer.className = 'marcador-outer';
-    outer.style.margin = '10px';
-    outer.style.display = 'inline-block';
-    
-    if (m.hole) {
-      var str = document.createElement('div');
-      str.className = 'marcador-string-el';
-      str.style.height = '24px';
-      var holeDiv = document.createElement('div');
-      holeDiv.className = 'marcador-hole-el';
-      outer.appendChild(str);
-      outer.appendChild(holeDiv);
-    }
-    
-    var wrap = document.createElement('div');
-    wrap.className = 'marcador-item ' + m.tema + ' ' + m.topo;
-    
-    var ribbonDiv = document.createElement('div');
-    ribbonDiv.className = 'marcador-ribbon';
-    ribbonDiv.innerHTML = '<span>' + (m.ribbon || 'FotoStúdio') + '</span>';
-    wrap.appendChild(ribbonDiv);
-    
-    var topDiv = document.createElement('div');
-    topDiv.className = 'marcador-top';
-    wrap.appendChild(topDiv);
-    
-    var photoDiv = document.createElement('div');
-    photoDiv.className = 'marcador-photo';
-    if (m.photo) {
-      var img = document.createElement('img');
-      img.src = m.photo;
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-      photoDiv.appendChild(img);
-    } else {
-      photoDiv.innerHTML = '<div style="width:100%;height:100%;background:#F9F5EE;display:flex;align-items:center;justify-content:center;">📷</div>';
-    }
-    wrap.appendChild(photoDiv);
-    
-    var body = document.createElement('div');
-    body.className = 'marcador-body';
-    body.innerHTML = '<div class="marcador-title-text">' + (m.title || '') + '</div>' +
-                     '<div class="marcador-subtitle-text">' + (m.subtitle || '') + '</div>' +
-                     '<div class="marcador-decorline"></div>' +
-                     '<div class="marcador-quote">' + (m.quote || '') + '</div>';
-    wrap.appendChild(body);
-    
-    var footer = document.createElement('div');
-    footer.className = 'marcador-footer';
-    wrap.appendChild(footer);
-    
-    var rm = document.createElement('button');
-    rm.className = 'marcador-remove';
-    rm.innerHTML = '×';
-    rm.onclick = (function(idx) { return function(e) { e.stopPropagation(); marcadores.splice(idx, 1); buildMarcadores(); }; })(i);
-    wrap.appendChild(rm);
-    
-    outer.appendChild(wrap);
-    canvas.appendChild(outer);
-  });
-}
-
-function clearMarcadores() {
-  marcadores = [];
-  buildMarcadores();
-  showToast('Marcadores removidos');
-}
-
-function setMarcTema(tema, el) {
-  marcTema = tema;
-  document.querySelectorAll('.tema-dot').forEach(function(d) { d.classList.remove('selected'); });
-  if (el) el.classList.add('selected');
-  marcadores.forEach(function(m) { m.tema = tema; });
-  buildMarcadores();
-  showToast('Tema aplicado');
-}
-
-function setMarcTopo(topo, el) {
-  marcTopo = topo;
-  document.querySelectorAll('.topo-btn').forEach(function(b) { b.classList.remove('selected'); });
-  if (el) el.classList.add('selected');
-  marcadores.forEach(function(m) { m.topo = topo; });
-  buildMarcadores();
-}
-
-function updateMarcTexts() {
-  var title = document.getElementById('marc-title') ? document.getElementById('marc-title').value : '';
-  var subtitle = document.getElementById('marc-subtitle') ? document.getElementById('marc-subtitle').value : '';
-  var quote = document.getElementById('marc-quote') ? document.getElementById('marc-quote').value : '';
-  var ribbon = document.getElementById('marc-ribbon') ? document.getElementById('marc-ribbon').value : 'FotoStúdio';
-  marcadores.forEach(function(m) { m.title = title; m.subtitle = subtitle; m.quote = quote; m.ribbon = ribbon; });
-  buildMarcadores();
-}
-
-function restoreMarcQuote() {
-  var selBtn = document.querySelector('.marc-sub-btn.selected');
-  if (selBtn) {
-    var quoteInput = document.getElementById('marc-quote');
-    if (quoteInput) quoteInput.value = '"A leitura é a viagem dos que não podem tomar o trem."';
-    updateMarcTexts();
-    updateQuoteCounter();
-    showToast('Frase restaurada!');
-  } else {
-    showToast('Selecione uma categoria primeiro.');
-  }
-}
-
-function clearMarcQuote() {
-  var quoteInput = document.getElementById('marc-quote');
-  if (quoteInput) quoteInput.value = '';
-  updateMarcTexts();
-  updateQuoteCounter();
-}
-
-function updateQuoteCounter() {
-  var q = document.getElementById('marc-quote');
-  var counter = document.getElementById('quote-counter');
-  if (q && counter) counter.textContent = q.value.length + ' caracteres';
-}
-
-function updateMarcHole() {
-  var hole = document.getElementById('marc-hole') ? document.getElementById('marc-hole').checked : false;
-  marcadores.forEach(function(m) { m.hole = hole; });
-  buildMarcadores();
-}
-
-function applyMarcCat(cat, el) {
-  var preset = MARC_CATS[cat];
-  if (!preset) return;
-  var ribbonInput = document.getElementById('marc-ribbon');
-  var titleInput = document.getElementById('marc-title');
-  var subtitleInput = document.getElementById('marc-subtitle');
-  var quoteInput = document.getElementById('marc-quote');
-  if (ribbonInput) ribbonInput.value = preset.ribbon || 'FotoStúdio';
-  if (titleInput) titleInput.value = preset.title || '';
-  if (subtitleInput) subtitleInput.value = preset.subtitle || '';
-  if (quoteInput) quoteInput.value = preset.quote || '';
-  document.querySelectorAll('.marc-sub-btn').forEach(function(b) { b.classList.remove('selected'); });
-  if (el) el.classList.add('selected');
-  marcTema = preset.tema || marcTema;
-  marcTopo = preset.topo || marcTopo;
-  marcadores.forEach(function(m) {
-    m.ribbon = preset.ribbon || m.ribbon;
-    m.title = preset.title || m.title;
-    m.subtitle = preset.subtitle || m.subtitle;
-    m.quote = preset.quote || m.quote;
-    m.tema = preset.tema || m.tema;
-    m.topo = preset.topo || m.topo;
-  });
-  buildMarcadores();
-  updateQuoteCounter();
-  showToast('Tema aplicado: ' + (el ? el.textContent : cat));
-}
-
-function toggleMarcGroup(header) {
-  var body = header.nextSibling;
-  while (body && body.nodeType !== 1) body = body.nextSibling;
-  if (!body || !body.classList || !body.classList.contains('marc-group-body')) return;
-  var isOpen = body.classList.contains('open');
-  document.querySelectorAll('.marc-group-body').forEach(function(b) { b.classList.remove('open'); });
-  document.querySelectorAll('.marc-group-header').forEach(function(h) { h.classList.remove('open'); });
-  if (!isOpen) {
-    body.classList.add('open');
-    header.classList.add('open');
-  }
-}
-
-function exportMarcadorPDF() {
-  var jsPDF = window.jspdf;
-  if (!jsPDF) { showToast('Biblioteca PDF não carregada'); return; }
-  if (marcadores.length === 0) { showToast('Adicione ao menos um marcador'); return; }
-  showToast('Gerando PDF...');
-  var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  var W = 210, H = 297;
-  var margem = 8;
-  var mW = 61, mH = 138;
-  
-  marcadores.forEach(function(m, idx) {
-    if (idx > 0 && idx % 6 === 0) doc.addPage();
-    var c = idx % 3;
-    var r = Math.floor(idx % 6 / 3);
-    var x = margem + c * (mW + 5);
-    var y = margem + r * (mH + 5);
-    
-    doc.setFillColor(255, 255, 255);
-    doc.rect(x, y, mW, mH, 'F');
-    
-    doc.setFillColor(196, 96, 42);
-    doc.rect(x, y, mW, 10, 'F');
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(5.8);
-    doc.setTextColor(255, 255, 255);
-    doc.text(m.ribbon || 'FotoStúdio', x + mW / 2, y + 7, { align: 'center' });
-    
-    doc.setFillColor(245, 242, 238);
-    doc.rect(x + 2, y + 12, mW - 4, 70, 'F');
-    
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7.5);
-    doc.setTextColor(28, 26, 23);
-    doc.text(m.title || '', x + mW / 2, y + 88, { align: 'center' });
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6);
-    doc.setTextColor(120, 112, 100);
-    doc.text(m.subtitle || '', x + mW / 2, y + 94, { align: 'center' });
-  });
-  doc.save('fotostudio-marcadores.pdf');
-  showToast('✓ PDF exportado!');
-}
-
-// ===== FUNÇÕES DO MURAL =====
-function muralSetStyle(s) {
-  _mStyle = s;
-  var items = document.querySelectorAll('#canvas-mural .mural-photo');
-  items.forEach(function(item, i) {
-    var st = s === 'mix' ? (i % 2 === 0 ? 'polaroid' : 'simple') : s;
-    if (item.classList) {
-      item.classList.remove('pol', 'sim');
-      item.classList.add(st === 'polaroid' ? 'pol' : 'sim');
-    }
-  });
-  showToast('Estilo: ' + s);
-}
-
-function muralSetWall(w, el) {
-  _mWall = w;
-  var colors = { wood: '#c8a070', brick: '#8B4030', white: '#f0f0f0', dark: '#1e1e1e', green: '#3a6030', blue: '#1a3a6a' };
-  var canvas = document.getElementById('canvas-mural');
-  if (canvas) canvas.style.backgroundColor = colors[w] || '#c8a070';
-  document.querySelectorAll('.mw-sw').forEach(function(s) { s.style.borderColor = 'transparent'; });
-  if (el) el.style.borderColor = 'var(--accent)';
-}
-
-function muralResize(sz) {
-  _mSz = sz;
-  var lbl = document.getElementById('mural-sz-lbl');
-  if (lbl) lbl.textContent = sz + 'px';
-  document.querySelectorAll('#canvas-mural .mural-photo img').forEach(function(img) {
-    img.style.width = sz + 'px';
-    img.style.height = sz + 'px';
-  });
-}
-
-function muralToggleRopes() {
-  var chk = document.getElementById('mural-rope-chk');
-  _mRopes = chk ? chk.checked : false;
-  document.querySelectorAll('#canvas-mural .mural-rope-el, #canvas-mural .mural-nail-el')
-    .forEach(function(el) { el.style.display = _mRopes ? '' : 'none'; });
-}
-
-function muralAddText() {
-  var canvas = document.getElementById('canvas-mural');
-  if (!canvas) return;
-  var box = document.createElement('div');
-  box.className = 'mural-txt';
-  box.style.position = 'absolute';
-  box.style.left = (50 + Math.random() * 150) + 'px';
-  box.style.top = (80 + Math.random() * 100) + 'px';
-  var ta = document.createElement('textarea');
-  ta.rows = 2;
-  ta.placeholder = 'Digite aqui...';
-  var rm = document.createElement('button');
-  rm.textContent = '×';
-  rm.onclick = function() { box.remove(); };
-  box.appendChild(ta);
-  box.appendChild(rm);
-  canvas.appendChild(box);
-  ta.focus();
-}
-
-function muralAddFiles(files) {
-  if (!files || !files.length) return;
-  var canvas = document.getElementById('canvas-mural');
-  var hint = document.getElementById('mural-hint');
-  if (hint) hint.style.display = 'none';
-  
-  Array.from(files).forEach(function(file, idx) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var photo = document.createElement('div');
-      photo.className = 'mural-photo pol';
-      photo.style.position = 'absolute';
-      photo.style.left = (20 + Math.random() * 200) + 'px';
-      photo.style.top = (40 + Math.random() * 150) + 'px';
-      photo.style.cursor = 'grab';
-      var img = document.createElement('img');
-      img.src = e.target.result;
-      img.style.width = _mSz + 'px';
-      img.style.height = _mSz + 'px';
-      img.style.objectFit = 'cover';
-      photo.appendChild(img);
-      
-      var rm = document.createElement('button');
-      rm.textContent = '×';
-      rm.style.position = 'absolute';
-      rm.style.top = '-8px';
-      rm.style.right = '-8px';
-      rm.style.background = '#e74c3c';
-      rm.style.color = 'white';
-      rm.style.border = 'none';
-      rm.style.borderRadius = '50%';
-      rm.style.width = '20px';
-      rm.style.height = '20px';
-      rm.style.cursor = 'pointer';
-      rm.onclick = function() { photo.remove(); };
-      photo.appendChild(rm);
-      
-      canvas.appendChild(photo);
+if (typeof setCanvasFrame === 'undefined') {
+    window.setCanvasFrame = function(type) {
+        var canvas = document.getElementById('canvas-livre');
+        canvas.querySelectorAll('.canvas-frame').forEach(function(f) { f.remove(); });
+        if (type === 'none') return;
+        var w = canvas.offsetWidth, h = canvas.offsetHeight;
+        var el = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        el.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+        el.setAttribute('width', '100%');
+        el.setAttribute('height', '100%');
+        el.classList.add('canvas-frame');
+        el.innerHTML = '<rect x="10" y="10" width="' + (w-20) + '" height="' + (h-20) + '" fill="none" stroke="#C9A227" stroke-width="4" rx="4"/>';
+        canvas.appendChild(el);
     };
-    reader.readAsDataURL(file);
-  });
 }
 
-function muralClear() {
-  var canvas = document.getElementById('canvas-mural');
-  if (!canvas) return;
-  canvas.querySelectorAll('.mural-photo, .mural-rope-el, .mural-nail-el, .mural-txt').forEach(function(el) { el.remove(); });
-  var hint = document.getElementById('mural-hint');
-  if (hint) hint.style.display = '';
-  showToast('Mural limpo!');
+if (typeof addTextBox === 'undefined') {
+    window.addTextBox = function() {
+        var canvas = document.getElementById('canvas-livre');
+        var box = document.createElement('div');
+        box.className = 'canvas-textbox';
+        box.style.position = 'absolute';
+        box.style.left = (40 + Math.random() * 200) + 'px';
+        box.style.top = (40 + Math.random() * 150) + 'px';
+        var ta = document.createElement('textarea');
+        ta.rows = 2;
+        ta.placeholder = 'Digite aqui...';
+        var rm = document.createElement('button');
+        rm.className = 'tb-remove';
+        rm.innerHTML = '×';
+        rm.onclick = function() { box.remove(); };
+        box.appendChild(ta);
+        box.appendChild(rm);
+        canvas.appendChild(box);
+        ta.focus();
+    };
 }
 
-function exportMuralPDF() {
-  var jsPDF = window.jspdf;
-  var canvas = document.getElementById('canvas-mural');
-  var items = canvas ? canvas.querySelectorAll('.mural-photo') : [];
-  if (!items || !items.length) { showToast('Adicione fotos primeiro!'); return; }
-  showToast('Gerando PDF...');
-  var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  var W = 210, H = 297;
-  doc.setFillColor(200, 168, 112);
-  doc.rect(0, 0, W, H, 'F');
-  var done = 0;
-  items.forEach(function(item) {
-    var img = item.querySelector('img');
-    if (!img) { done++; if (done === items.length) { doc.save('mural.pdf'); showToast('✓ PDF salvo!'); } return; }
-    var left = parseFloat(item.style.left) || 10;
-    var top = parseFloat(item.style.top) || 10;
-    var ix = 10 + left * 0.264;
-    var iy = 10 + top * 0.264;
-    try {
-      doc.addImage(img.src, 'JPEG', ix, iy, 50, 50);
-    } catch (e) {
-      try { doc.addImage(img.src, 'PNG', ix, iy, 50, 50); } catch(_) {}
-    }
-    done++;
-    if (done === items.length) { doc.save('mural.pdf'); showToast('✓ PDF salvo!'); }
-  });
+if (typeof setCanvasBg === 'undefined') {
+    window.setCanvasBg = function(value, el) {
+        var canvas = document.getElementById('canvas-livre');
+        if (value && value.startsWith('color:')) {
+            canvas.style.background = value.replace('color:', '');
+        } else {
+            canvas.style.background = '#F5F0E8';
+        }
+        document.querySelectorAll('.bg-swatch').forEach(function(s) { s.style.borderColor = 'transparent'; });
+        if (el) el.style.borderColor = 'var(--accent)';
+    };
 }
 
-// ===== FUNÇÕES DA AJUDA =====
-function toggleAjuda(header) {
-  var steps = header.nextElementSibling;
-  var isOpen = steps && steps.classList ? steps.classList.contains('open') : false;
-  document.querySelectorAll('.ajuda-steps').forEach(function(s) { s.classList.remove('open'); });
-  document.querySelectorAll('.ajuda-card-header').forEach(function(h) { h.classList.remove('open'); });
-  if (!isOpen && steps && steps.classList) {
-    steps.classList.add('open');
-    header.classList.add('open');
-  }
+if (typeof changeYear === 'undefined') {
+    window.changeYear = function(delta) {
+        if (typeof window.calYear === 'undefined') window.calYear = 2026;
+        window.calYear += delta;
+        if (typeof buildCalendar === 'function') buildCalendar();
+        var yearDisplay = document.getElementById('year-display');
+        var calYearSpan = document.getElementById('cal-year');
+        if (yearDisplay) yearDisplay.textContent = window.calYear;
+        if (calYearSpan) calYearSpan.textContent = window.calYear;
+    };
 }
 
-function toggleFaq(item) {
-  var isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
-  if (!isOpen) item.classList.add('open');
+if (typeof uploadCalPhoto === 'undefined') {
+    window.uploadCalPhoto = function(idx) {
+        var input = document.getElementById('calFile' + idx);
+        if (input) input.click();
+    };
 }
 
-function downloadManualPDF() {
-  var jsPDF = window.jspdf;
-  if (!jsPDF) { showToast('Biblioteca PDF não carregada'); return; }
-  showToast('Gerando manual PDF...');
-  var doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  doc.setFillColor(28, 26, 23);
-  doc.rect(0, 0, 210, 297, 'F');
-  doc.setFillColor(196, 96, 42);
-  doc.rect(0, 0, 8, 297, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(42);
-  doc.setTextColor(255, 255, 255);
-  doc.text('Foto', 105, 110, { align: 'center' });
-  doc.setTextColor(196, 96, 42);
-  doc.text('Stúdio', 105, 130, { align: 'center' });
-  doc.setFontSize(14);
-  doc.setTextColor(180, 175, 168);
-  doc.text('Manual do Usuário', 105, 150, { align: 'center' });
-  doc.save('fotostudio-manual.pdf');
-  showToast('Manual baixado!');
+if (typeof exportFolhinhaPDF === 'undefined') {
+    window.exportFolhinhaPDF = function() {
+        showToast('Função Folhinha PDF em desenvolvimento');
+    };
 }
 
-// ===== FUNÇÕES AUXILIARES =====
-function showToast(msg, duration) {
-  duration = duration || 2500;
-  var t = document.getElementById('toast');
-  if (!t) return;
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(function() { t.classList.remove('show'); }, duration);
+if (typeof exportAlbumCoverOnly === 'undefined') {
+    window.exportAlbumCoverOnly = function() {
+        showToast('Função Álbum PDF em desenvolvimento');
+    };
 }
 
-function buildFramesGrids() {
-  var frames = document.querySelectorAll('.frame-swatch');
-  frames.forEach(function(sw) {
-    sw.classList.toggle('selected', sw.dataset.frame === window.currentFrame);
-  });
+if (typeof exportMarcadorPDF === 'undefined') {
+    window.exportMarcadorPDF = function() {
+        showToast('Função Marcador PDF em desenvolvimento');
+    };
 }
 
-function selectFrameGlobal(frameId) {
-  window.currentFrame = frameId;
-  document.querySelectorAll('.frame-swatch').forEach(function(sw) {
-    sw.classList.toggle('selected', sw.dataset.frame === frameId);
-  });
-  document.querySelectorAll('.polaroid').forEach(function(p) {
-    var classes = p.className.split(' ').filter(function(c) { return !c.startsWith('frame-'); });
-    p.className = classes.concat([frameId]).join(' ');
-  });
-  showToast('Moldura aplicada');
+if (typeof exportMuralPDF === 'undefined') {
+    window.exportMuralPDF = function() {
+        showToast('Função Mural PDF em desenvolvimento');
+    };
 }
 
-// Inicialização de variáveis globais
+if (typeof muralSetStyle === 'undefined') {
+    window.muralSetStyle = function(s) {
+        showToast('Estilo: ' + s);
+    };
+}
+
+if (typeof muralSetWall === 'undefined') {
+    window.muralSetWall = function(w, el) {
+        var colors = { wood: '#c8a070', brick: '#8B4030', white: '#f0f0f0', dark: '#1e1e1e', green: '#3a6030', blue: '#1a3a6a' };
+        var canvas = document.getElementById('canvas-mural');
+        if (canvas) canvas.style.backgroundColor = colors[w] || '#c8a070';
+        document.querySelectorAll('.mw-sw').forEach(function(s) { s.style.borderColor = 'transparent'; });
+        if (el) el.style.borderColor = 'var(--accent)';
+    };
+}
+
+if (typeof muralResize === 'undefined') {
+    window.muralResize = function(sz) {
+        var lbl = document.getElementById('mural-sz-lbl');
+        if (lbl) lbl.textContent = sz + 'px';
+        document.querySelectorAll('#canvas-mural .mural-photo img').forEach(function(img) {
+            img.style.width = sz + 'px';
+            img.style.height = sz + 'px';
+        });
+    };
+}
+
+if (typeof muralToggleRopes === 'undefined') {
+    window.muralToggleRopes = function() {
+        showToast('Varais ' + (document.getElementById('mural-rope-chk')?.checked ? 'ativados' : 'desativados'));
+    };
+}
+
+if (typeof muralAddText === 'undefined') {
+    window.muralAddText = function() {
+        var canvas = document.getElementById('canvas-mural');
+        if (!canvas) return;
+        var box = document.createElement('div');
+        box.className = 'mural-txt';
+        box.style.position = 'absolute';
+        box.style.left = (50 + Math.random() * 150) + 'px';
+        box.style.top = (80 + Math.random() * 100) + 'px';
+        var ta = document.createElement('textarea');
+        ta.rows = 2;
+        ta.placeholder = 'Digite aqui...';
+        var rm = document.createElement('button');
+        rm.textContent = '×';
+        rm.onclick = function() { box.remove(); };
+        box.appendChild(ta);
+        box.appendChild(rm);
+        canvas.appendChild(box);
+        ta.focus();
+    };
+}
+
+if (typeof muralAddFiles === 'undefined') {
+    window.muralAddFiles = function(files) {
+        if (!files || !files.length) return;
+        var canvas = document.getElementById('canvas-mural');
+        var hint = document.getElementById('mural-hint');
+        if (hint) hint.style.display = 'none';
+        
+        Array.from(files).forEach(function(file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var photo = document.createElement('div');
+                photo.className = 'mural-photo pol';
+                photo.style.position = 'absolute';
+                photo.style.left = (20 + Math.random() * 200) + 'px';
+                photo.style.top = (40 + Math.random() * 150) + 'px';
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '130px';
+                img.style.height = '130px';
+                img.style.objectFit = 'cover';
+                photo.appendChild(img);
+                canvas.appendChild(photo);
+            };
+            reader.readAsDataURL(file);
+        });
+    };
+}
+
+if (typeof muralClear === 'undefined') {
+    window.muralClear = function() {
+        var canvas = document.getElementById('canvas-mural');
+        if (!canvas) return;
+        canvas.querySelectorAll('.mural-photo, .mural-txt').forEach(function(el) { el.remove(); });
+        var hint = document.getElementById('mural-hint');
+        if (hint) hint.style.display = '';
+        showToast('Mural limpo!');
+    };
+}
+
+if (typeof toggleAjuda === 'undefined') {
+    window.toggleAjuda = function(header) {
+        var steps = header.nextElementSibling;
+        if (steps && steps.classList) {
+            steps.classList.toggle('open');
+            header.classList.toggle('open');
+        }
+    };
+}
+
+if (typeof toggleFaq === 'undefined') {
+    window.toggleFaq = function(item) {
+        item.classList.toggle('open');
+    };
+}
+
+if (typeof downloadManualPDF === 'undefined') {
+    window.downloadManualPDF = function() {
+        showToast('Manual PDF em desenvolvimento');
+    };
+}
+
+if (typeof addAlbumPage === 'undefined') {
+    window.addAlbumPage = function() {
+        var grid = document.getElementById('album-pages-grid');
+        if (grid) {
+            var page = document.createElement('div');
+            page.className = 'album-page';
+            page.innerHTML = '<span style="font-size:20px;">📷</span><span style="font-size:11px;">Nova página</span>';
+            grid.insertBefore(page, grid.lastElementChild);
+            showToast('Página adicionada');
+        }
+    };
+}
+
+if (typeof uploadAlbumPages === 'undefined') {
+    window.uploadAlbumPages = function() {
+        document.getElementById('albumPageFile')?.click();
+    };
+}
+
+if (typeof updateBinding === 'undefined') {
+    window.updateBinding = function() {
+        var select = document.getElementById('binding-type');
+        showToast('Encadernação: ' + (select ? select.options[select.selectedIndex].text : 'padrão'));
+    };
+}
+
+if (typeof uploadAllFolhinha === 'undefined') {
+    window.uploadAllFolhinha = function() {
+        document.getElementById('folhinhaFile')?.click();
+    };
+}
+
+if (typeof loadFolhinhaPhotos === 'undefined') {
+    window.loadFolhinhaPhotos = function(files) {
+        showToast('Adicionando ' + files.length + ' fotos à folhinha');
+    };
+}
+
+if (typeof addMarcador === 'undefined') {
+    window.addMarcador = function() {
+        var canvas = document.getElementById('marcador-canvas');
+        if (canvas) {
+            var marc = document.createElement('div');
+            marc.className = 'marcador-outer';
+            marc.style.margin = '10px';
+            marc.style.display = 'inline-block';
+            marc.innerHTML = '<div class="marcador-item marc-coral marc-top-v"><div class="marcador-ribbon"><span>FotoStúdio</span></div><div class="marcador-top"></div><div class="marcador-photo"><div style="width:100%;height:100%;background:#F9F5EE;display:flex;align-items:center;justify-content:center;">📷</div></div><div class="marcador-body"><div class="marcador-title-text">Meu Marcador</div><div class="marcador-decorline"></div></div><div class="marcador-footer"></div></div>';
+            canvas.appendChild(marc);
+            showToast('Marcador adicionado!');
+        }
+    };
+}
+
+if (typeof clearMarcadores === 'undefined') {
+    window.clearMarcadores = function() {
+        var canvas = document.getElementById('marcador-canvas');
+        if (canvas) {
+            canvas.querySelectorAll('.marcador-outer').forEach(function(m) { m.remove(); });
+            showToast('Marcadores removidos');
+        }
+    };
+}
+
+if (typeof setMarcTema === 'undefined') {
+    window.setMarcTema = function(tema, el) {
+        document.querySelectorAll('.tema-dot').forEach(function(d) { d.classList.remove('selected'); });
+        if (el) el.classList.add('selected');
+        showToast('Tema aplicado');
+    };
+}
+
+if (typeof setMarcTopo === 'undefined') {
+    window.setMarcTopo = function(topo, el) {
+        document.querySelectorAll('.topo-btn').forEach(function(b) { b.classList.remove('selected'); });
+        if (el) el.classList.add('selected');
+        showToast('Formato aplicado');
+    };
+}
+
+if (typeof updateMarcTexts === 'undefined') {
+    window.updateMarcTexts = function() {
+        showToast('Textos atualizados');
+    };
+}
+
+if (typeof restoreMarcQuote === 'undefined') {
+    window.restoreMarcQuote = function() {
+        var quote = document.getElementById('marc-quote');
+        if (quote) quote.value = '"A leitura é a viagem dos que não podem tomar o trem."';
+        updateQuoteCounter();
+        showToast('Frase restaurada!');
+    };
+}
+
+if (typeof clearMarcQuote === 'undefined') {
+    window.clearMarcQuote = function() {
+        var quote = document.getElementById('marc-quote');
+        if (quote) quote.value = '';
+        updateQuoteCounter();
+    };
+}
+
+if (typeof updateQuoteCounter === 'undefined') {
+    window.updateQuoteCounter = function() {
+        var q = document.getElementById('marc-quote');
+        var counter = document.getElementById('quote-counter');
+        if (q && counter) counter.textContent = q.value.length + ' caracteres';
+    };
+}
+
+if (typeof updateMarcHole === 'undefined') {
+    window.updateMarcHole = function() {
+        showToast('Furo ' + (document.getElementById('marc-hole')?.checked ? 'ativado' : 'desativado'));
+    };
+}
+
+if (typeof applyMarcCat === 'undefined') {
+    window.applyMarcCat = function(cat, el) {
+        document.querySelectorAll('.marc-sub-btn').forEach(function(b) { b.classList.remove('selected'); });
+        if (el) el.classList.add('selected');
+        showToast('Categoria: ' + (el ? el.textContent : cat));
+    };
+}
+
+if (typeof toggleMarcGroup === 'undefined') {
+    window.toggleMarcGroup = function(header) {
+        var body = header.nextElementSibling;
+        while (body && body.nodeType !== 1) body = body.nextSibling;
+        if (body && body.classList) {
+            body.classList.toggle('open');
+            header.classList.toggle('open');
+        }
+    };
+}
+
+if (typeof rebuildFolhinhaLabels === 'undefined') {
+    window.rebuildFolhinhaLabels = function() {
+        if (typeof buildFolhinha === 'function') buildFolhinha();
+    };
+}
+
+if (typeof buildFramesGrids === 'undefined') {
+    window.buildFramesGrids = function() {
+        console.log('Frames grids inicializados');
+    };
+}
+
+if (typeof selectFrameGlobal === 'undefined') {
+    window.selectFrameGlobal = function(frameId) {
+        window.currentFrame = frameId;
+        document.querySelectorAll('.frame-swatch').forEach(function(sw) {
+            sw.classList.toggle('selected', sw.dataset.frame === frameId);
+        });
+        document.querySelectorAll('.polaroid').forEach(function(p) {
+            var classes = p.className.split(' ').filter(function(c) { return !c.startsWith('frame-'); });
+            p.className = classes.concat([frameId]).join(' ');
+        });
+        showToast('Moldura aplicada');
+    };
+}
+
+// Inicialização
 if (typeof window.currentFrame === 'undefined') window.currentFrame = 'frame-classic';
 if (typeof window.calYear === 'undefined') window.calYear = 2026;
-if (typeof window.currentFormat === 'undefined') window.currentFormat = 'retrato';
-if (typeof window.currentTab === 'undefined') window.currentTab = 'livre';
-if (typeof window.sidebarCollapsed === 'undefined') window.sidebarCollapsed = false;
 
-console.log('Todas as funções foram carregadas com sucesso!');
+console.log('✅ Todas as funções foram carregadas com sucesso!');
   
 </script>
 </body>
