@@ -6126,6 +6126,88 @@ buildFramesGrids();
 updateQuoteCounter();
 // Init mural wall on load
 
+
+/* ===== PATCH MURAL PRO ===== */
+
+let muralLines = []
+let draggingPhoto = null
+let offsetX = 0
+let offsetY = 0
+
+function initMuralLines(){
+muralLines = []
+document.querySelectorAll('.clothesline, .rope, .string, .varal').forEach(line=>{
+muralLines.push(line)
+})
+}
+
+setTimeout(initMuralLines,1000)
+
+document.addEventListener("mousedown",e=>{
+const photo = e.target.closest(".photo, .photo-item, .polaroid")
+if(!photo) return
+draggingPhoto = photo
+offsetX = e.clientX - photo.offsetLeft
+offsetY = e.clientY - photo.offsetTop
+photo.style.zIndex = 999
+})
+
+document.addEventListener("mousemove",e=>{
+if(!draggingPhoto) return
+draggingPhoto.style.left = (e.clientX - offsetX) + "px"
+draggingPhoto.style.top = (e.clientY - offsetY) + "px"
+})
+
+document.addEventListener("mouseup",()=>{
+if(!draggingPhoto) return
+snapToLine(draggingPhoto)
+draggingPhoto = null
+})
+
+function snapToLine(photo){
+let bestLine = null
+let bestDist = 9999
+const photoRect = photo.getBoundingClientRect()
+
+muralLines.forEach(line=>{
+const r = line.getBoundingClientRect()
+const dist = Math.abs(photoRect.top - r.top)
+if(dist < bestDist){
+bestDist = dist
+bestLine = line
+}
+})
+
+if(bestLine && bestDist < 120){
+photo.style.top = (bestLine.offsetTop + 10) + "px"
+addClip(photo)
+}
+}
+
+function addClip(photo){
+if(photo.querySelector(".clip")) return
+const clip = document.createElement("div")
+clip.className = "clip"
+clip.style.position="absolute"
+clip.style.top="-18px"
+clip.style.left="50%"
+clip.style.transform="translateX(-50%)"
+clip.style.width="26px"
+clip.style.height="26px"
+clip.style.background="#d6b370"
+clip.style.borderRadius="4px"
+clip.style.boxShadow="0 3px 6px rgba(0,0,0,.4)"
+photo.appendChild(clip)
+}
+
+function fixFreeMode(){
+const free = document.querySelector('.free-mode, .mode-free, .canvas-free')
+if(free){
+free.style.background="transparent"
+}
+}
+
+setInterval(fixFreeMode,1500)  
 </script>
 </body>
 </html>
