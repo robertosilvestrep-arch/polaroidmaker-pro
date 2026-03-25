@@ -1766,11 +1766,9 @@ function setCanvasBg(value, el) {
 
 function clearCanvas() {
     const canvas = document.getElementById('canvas-livre');
-    const input = document.getElementById('fileInput-livre'); // O ID correto do seu HTML
+    const input = document.getElementById('fileInput-livre');
     
     if (canvas) {
-        canvas.innerHTML = '';
-        // Mostra o aviso de "Arraste fotos" novamente
         canvas.innerHTML = `
             <div class="drop-hint" id="drop-hint">
                 <div class="icon">📸</div>
@@ -1782,9 +1780,17 @@ function clearCanvas() {
             </div>`;
     }
 
-    // A LINHA QUE MATA O SEU BUG:
     if (input) {
-        input.value = '';
+        input.value = ''; 
+    }
+    
+    // Se você usa o array para controlar as fotos, limpe-o aqui também
+    if (window.livrePhotos) {
+        window.livrePhotos = [];
+    }
+
+    showToast('✓ Canvas limpo!');
+}
     }
     
     // Se você tiver a variável livrePhotos, zere ela também
