@@ -1765,13 +1765,35 @@ function setCanvasBg(value, el) {
 }
 
 function clearCanvas() {
-  const canvas = document.getElementById('canvas-livre');
-  const pols = canvas.querySelectorAll('.polaroid');
-  pols.forEach(p => p.remove());
-  livrePhotos = [];
-  const hint = document.getElementById('drop-hint');
-  if (hint) hint.style.display = '';
-  canvas.classList.remove('has-photos');
+    const canvas = document.getElementById('canvas-livre');
+    const input = document.getElementById('fileInput-livre'); // O ID correto do seu HTML
+    
+    if (canvas) {
+        canvas.innerHTML = '';
+        // Mostra o aviso de "Arraste fotos" novamente
+        canvas.innerHTML = `
+            <div class="drop-hint" id="drop-hint">
+                <div class="icon">📸</div>
+                <p>Arraste suas fotos aqui</p>
+                <small>JPG, PNG, WEBP</small>
+                <button class="upload-btn-big" onclick="document.getElementById('fileInput-livre').click()">
+                  ＋ Selecionar fotos
+                </button>
+            </div>`;
+    }
+
+    // A LINHA QUE MATA O SEU BUG:
+    if (input) {
+        input.value = '';
+    }
+    
+    // Se você tiver a variável livrePhotos, zere ela também
+    if (typeof livrePhotos !== 'undefined') {
+        livrePhotos = [];
+    }
+
+    showToast('✓ Canvas limpo!');
+}
 }
 
 function shuffleLayout() {
