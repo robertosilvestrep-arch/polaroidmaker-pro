@@ -86,18 +86,15 @@ h1,h2,h3 { font-family: 'Playfair Display', serif; }
 .polaroid-img-wrap { overflow: hidden; display: block; line-height: 0; margin: 0 auto; }
 .polaroid-img-wrap img { display: block; object-fit: cover; width: 100%; height: 100%; }
 
-/* MOLDURA FILME COM ROLO */
-.frame-film { background: #111; padding: 12px 12px 38px; position: relative; }
-.frame-film::before, .frame-film::after { content: ''; position: absolute; top: 10px; bottom: 10px; width: 12px; background: repeating-linear-gradient(to bottom, #222 0px, #222 8px, #444 8px, #444 16px); pointer-events: none; }
-.frame-film::before { left: 4px; }
-.frame-film::after { right: 4px; }
-.frame-film .polaroid-img-wrap { border: 2px solid #444; }
-
-/* OUTRAS MOLDURAS */
+/* MOLDURAS */
 .frame-classic { background: #fff; padding: 10px 10px 36px; }
 .frame-creme { background: #FBF6EC; padding: 10px 10px 36px; }
 .frame-kraft { background: #C8A882; padding: 10px 10px 36px; }
 .frame-dark { background: #1a1a1a; padding: 10px 10px 36px; }
+.frame-film { background: #111; padding: 12px 12px 38px; position: relative; }
+.frame-film::before, .frame-film::after { content: ''; position: absolute; top: 10px; bottom: 10px; width: 12px; background: repeating-linear-gradient(to bottom, #222 0px, #222 8px, #444 8px, #444 16px); pointer-events: none; }
+.frame-film::before { left: 4px; }
+.frame-film::after { right: 4px; }
 .frame-vintage { background: #F0E6D0; padding: 10px 10px 36px; }
 .frame-rosa { background: #FDE8F0; padding: 10px 10px 36px; }
 .frame-azul { background: #E8F0FD; padding: 10px 10px 36px; }
@@ -110,8 +107,6 @@ h1,h2,h3 { font-family: 'Playfair Display', serif; }
 .frame-retro70 { background: #E8651A; padding: 10px 10px 36px; }
 .frame-gold { background: #1a1100; padding: 12px 12px 38px; border: 2px solid #c9a227; }
 .frame-madeira { background: #8B5A2B; padding: 12px 12px 38px; border: 4px solid #5a3a1a; }
-.frame-ouro { background: #D4AF37; padding: 12px 12px 38px; border: 3px solid #AA8C2E; }
-.frame-prata { background: #C0C0C0; padding: 12px 12px 38px; border: 3px solid #A0A0A0; }
 
 .frames-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-height: 450px; overflow-y: auto; padding-right: 5px; }
 .frame-swatch { border: 2px solid var(--border); border-radius: 6px; padding: 8px 4px; text-align: center; cursor: pointer; font-size: 10px; color: var(--muted); background: var(--white); transition: all 0.15s; }
@@ -119,7 +114,7 @@ h1,h2,h3 { font-family: 'Playfair Display', serif; }
 .frame-swatch.selected { border-color: var(--accent); background: #FDF2EC; color: var(--accent); font-weight: 500; }
 .frame-swatch .swatch-preview { width: 100%; height: 32px; margin-bottom: 4px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 
-/* FUNDOS PERSONALIZADOS */
+/* FUNDOS */
 .bg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .bg-option { height: 45px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; }
 .bg-option:hover { transform: scale(1.02); }
@@ -219,31 +214,35 @@ h1,h2,h3 { font-family: 'Playfair Display', serif; }
 .marc-input { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; font-size: 12px; margin-bottom: 8px; }
 .marc-input:focus { outline: none; border-color: var(--accent); }
 
-/* MURAL */
-#canvas-mural { position: relative; background: #c8a070; border-radius: 12px; overflow: hidden; border: 2px solid #b09060; height: 500px; }
-.mural-photo { position: absolute; cursor: grab; transition: box-shadow 0.2s; user-select: none; }
-.mural-photo.dragging { cursor: grabbing; z-index: 100; opacity: 0.8; }
-.mural-photo.pol { background: white; padding: 8px 8px 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); border-radius: 2px; }
-.mural-photo.simple { background: white; padding: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); border: 2px solid #d4c4a0; }
-.mural-photo.vintage { background: #F0E6D0; padding: 8px 8px 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); filter: sepia(0.3); }
-.mural-photo.wide { background: white; padding: 8px 8px 42px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
-.mural-photo.minimal { background: white; padding: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); border: 1px solid #ddd; }
-.mural-photo.film { background: #111; padding: 12px 12px 32px; position: relative; }
-.mural-photo.film::before, .mural-photo.film::after { content: ''; position: absolute; top: 10px; bottom: 10px; width: 8px; background: repeating-linear-gradient(to bottom, #222 0px, #222 6px, #444 6px, #444 12px); pointer-events: none; }
-.mural-photo.film::before { left: 4px; }
-.mural-photo.film::after { right: 4px; }
-.mural-photo.rustic { background: #C8A882; padding: 10px 10px 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); border: 2px solid #8B5A2B; }
-.mural-photo.gold { background: #1a1100; padding: 12px 12px 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); border: 2px solid #c9a227; }
-.mural-photo img { display: block; object-fit: cover; width: 100%; height: 100%; }
-.mural-photo .mp-rm { position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; background: #e74c3c; border: none; border-radius: 50%; color: white; font-size: 12px; cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 5; }
-.mural-photo:hover .mp-rm { display: flex; }
-.mural-string { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 2px; background: linear-gradient(to bottom, #8B6040, #c8a878); pointer-events: none; z-index: 2; }
-.mural-nail { position: absolute; top: -24px; left: 50%; transform: translateX(-50%); width: 8px; height: 8px; background: radial-gradient(circle, #aaa, #666); border-radius: 50%; pointer-events: none; z-index: 2; }
-.mural-txt { position: absolute; background: rgba(255,255,240,0.95); border: 1px solid #ccc; border-radius: 6px; padding: 6px; min-width: 100px; cursor: move; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-.mural-txt textarea { border: none; background: transparent; font-size: 11px; resize: both; outline: none; width: 100%; font-family: inherit; }
+/* MURAL - NOVO VISUAL COM MOLDURAS ESTILIZADAS */
+.mural-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; }
+#canvas-mural { position: relative; background: #e8d4bc; border-radius: 16px; overflow: auto; border: 2px solid #b09060; height: 550px; background-image: radial-gradient(circle at 10% 20%, rgba(0,0,0,0.03) 2%, transparent 2.5%); background-size: 28px 28px; }
+.mural-foto { position: absolute; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; user-select: none; background: transparent; }
+.mural-foto:hover { transform: scale(1.02); z-index: 20; }
+.mural-foto.dragging { cursor: grabbing; opacity: 0.8; z-index: 100; }
+.mural-foto .moldura { background: white; padding: 8px 8px 28px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: all 0.2s; border-radius: 4px; }
+.mural-foto .moldura.madeira { background: #DEB887; border: 6px solid #8B5A2B; padding: 4px 4px 24px; }
+.mural-foto .moldura.dourada { background: #F5E6D3; border: 6px solid #D4AF37; padding: 4px 4px 24px; box-shadow: 0 0 0 2px #FFD700, 0 8px 20px rgba(0,0,0,0.2); }
+.mural-foto .moldura.vintage { background: #F0E6D0; border: 8px double #C8A882; padding: 6px 6px 26px; filter: sepia(0.2); }
+.mural-foto .moldura.filme { background: #111; border: 4px solid #444; padding: 8px 8px 28px; position: relative; }
+.mural-foto .moldura.filme::before, .mural-foto .moldura.filme::after { content: ''; position: absolute; top: 8px; bottom: 8px; width: 10px; background: repeating-linear-gradient(to bottom, #222 0px, #222 6px, #444 6px, #444 12px); pointer-events: none; }
+.mural-foto .moldura.filme::before { left: 2px; }
+.mural-foto .moldura.filme::after { right: 2px; }
+.mural-foto .moldura.polaroid { background: white; padding: 8px 8px 32px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+.mural-foto .moldura.rustica { background: #C8A882; border: 8px solid #8B5A2B; padding: 4px 4px 24px; position: relative; }
+.mural-foto .moldura.rustica::after { content: '✧'; position: absolute; bottom: 4px; right: 8px; color: #5a3a1a; font-size: 12px; }
+.mural-foto .moldura.moderna { background: #fff; border: 2px solid #333; padding: 6px 6px 26px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.mural-foto img { display: block; object-fit: cover; width: 100%; height: 100%; border-radius: 2px; }
+.mural-foto .legenda { position: absolute; bottom: 6px; left: 8px; right: 8px; text-align: center; font-family: 'Playfair Display', serif; font-size: 10px; color: var(--muted); background: rgba(255,255,240,0.8); padding: 2px; border-radius: 4px; cursor: text; }
+.mural-foto .legenda input { width: 100%; border: none; background: transparent; text-align: center; font-family: inherit; font-size: 10px; color: inherit; outline: none; }
+.mural-foto .remove-foto { position: absolute; top: -10px; right: -10px; width: 22px; height: 22px; border-radius: 50%; background: #e74c3c; color: white; border: none; cursor: pointer; font-size: 12px; display: none; align-items: center; justify-content: center; z-index: 10; }
+.mural-foto:hover .remove-foto { display: flex; }
+.mural-foto .prego { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 8px; height: 8px; background: radial-gradient(circle, #aaa, #666); border-radius: 50%; pointer-events: none; z-index: 5; }
+.mural-foto .barbante { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 2px; height: 20px; background: linear-gradient(to bottom, #8B6040, #c8a878); pointer-events: none; z-index: 5; }
+.mural-txt { position: absolute; background: rgba(255,255,240,0.95); border: 1px solid #ccc; border-radius: 8px; padding: 8px; min-width: 120px; cursor: move; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-family: 'Playfair Display', serif; }
+.mural-txt textarea { border: none; background: transparent; font-size: 12px; resize: both; outline: none; width: 100%; font-family: inherit; text-align: center; }
 .mural-txt .mt-rm { position: absolute; top: -8px; right: -8px; width: 18px; height: 18px; background: #e74c3c; border: none; border-radius: 50%; color: white; font-size: 10px; cursor: pointer; display: none; align-items: center; justify-content: center; }
 .mural-txt:hover .mt-rm { display: flex; }
-
 .wall-btn { height: 45px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; margin-bottom: 8px; }
 .wall-btn:hover { transform: scale(1.02); }
 .wall-btn.selected { border-color: var(--accent); }
@@ -257,7 +256,7 @@ input[type="file"] { display: none; }
 @media (max-width: 900px) {
   .sidebar { width: 64px; }
   .main { margin-left: 64px; }
-  .livre-layout, .cal-layout, .album-layout, .marcador-layout { grid-template-columns: 1fr; }
+  .livre-layout, .cal-layout, .album-layout, .marcador-layout, .mural-layout { grid-template-columns: 1fr; }
   .frames-grid { grid-template-columns: repeat(3, 1fr); }
   .folhinha-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -299,7 +298,7 @@ input[type="file"] { display: none; }
           <div>
             <div class="tag-pill">📸 Arraste fotos ou clique para adicionar</div>
             <div class="canvas-wrap" id="canvas-livre" ondrop="dropHandler(event)" ondragover="dragOverHandler(event)">
-              <div class="drop-hint" id="drop-hint"><div class="icon" style="font-size:36px;">📸</div><p>Arraste suas fotos aqui</p><small>JPG, PNG, WEBP</small><button class="upload-btn-big" id="uploadBtnLivre" onclick="event.stopPropagation();document.getElementById('fileInput-livre').click()">➕ Selecionar fotos</button></div>
+              <div class="drop-hint" id="drop-hint"><div class="icon" style="font-size:36px;">📸</div><p>Arraste suas fotos aqui</p><small>JPG, PNG, WEBP</small><button class="upload-btn-big" onclick="event.stopPropagation();document.getElementById('fileInput-livre').click()">➕ Selecionar fotos</button></div>
             </div>
             <input type="file" id="fileInput-livre" multiple accept="image/*" style="display:none" onchange="addPhotosLivre(this.files)">
             <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
@@ -316,7 +315,7 @@ input[type="file"] { display: none; }
             <div class="card"><div class="card-title">🎨 Fundos Personalizados</div>
               <div class="bg-grid" id="bg-grid"></div>
             </div>
-            <div class="card"><div class="card-title">💡 Dica</div><p style="font-size:12px;">Clique em uma polaroide para removê-la. Use "Embaralhar" para testar disposições diferentes. Arraste as fotos para reposicionar.</p></div>
+            <div class="card"><div class="card-title">💡 Dica</div><p style="font-size:12px;">Clique em uma polaroide para removê-la. Use "Embaralhar" para testar disposições diferentes.</p></div>
           </div>
         </div>
       </div>
@@ -327,20 +326,20 @@ input[type="file"] { display: none; }
           <div>
             <div class="tag-pill">📅 Calendário anual completo com suas fotos</div>
             <div class="cal-preview" id="cal-preview">
-              <div class="cal-photos-row" id="cal-photos-row">
+              <div class="cal-photos-row">
                 <div class="cal-photo-slot" onclick="uploadCalPhoto(0)">
                   <div class="polaroid frame-classic" style="position:relative; width:140px;">
                     <div class="polaroid-img-wrap" style="width:120px;height:120px;margin:0 auto;"><div id="cal-img-0" style="width:100%;height:100%;background:var(--warm);display:flex;align-items:center;justify-content:center;">📷</div></div>
-                    <div class="caption caption-editable" id="cal-cap-0" contenteditable="true" style="position:relative; bottom:auto; margin-top:8px;">Foto 1</div>
+                    <div class="caption caption-editable" id="cal-cap-0" style="position:relative; bottom:auto; margin-top:8px;">Foto 1</div>
                   </div>
                 </div>
                 <div class="cal-photo-slot" onclick="uploadCalPhoto(1)">
                   <div class="polaroid frame-classic" style="position:relative; width:140px;">
                     <div class="polaroid-img-wrap" style="width:120px;height:120px;margin:0 auto;"><div id="cal-img-1" style="width:100%;height:100%;background:var(--warm);display:flex;align-items:center;justify-content:center;">📷</div></div>
-                    <div class="caption caption-editable" id="cal-cap-1" contenteditable="true" style="position:relative; bottom:auto; margin-top:8px;">Foto 2</div>
+                    <div class="caption caption-editable" id="cal-cap-1" style="position:relative; bottom:auto; margin-top:8px;">Foto 2</div>
                   </div>
                 </div>
-                <div style="flex:1; min-width:100px;"><div class="cal-year-title" id="cal-year">2026</div></div>
+                <div style="flex:1;"><div class="cal-year-title" id="cal-year">2026</div></div>
               </div>
               <div class="cal-grid" id="cal-grid"></div>
             </div>
@@ -387,7 +386,6 @@ input[type="file"] { display: none; }
           <div class="panel">
             <div class="card"><div class="card-title">📄 Páginas</div><button class="btn" style="width:100%;margin-bottom:8px;" onclick="addAlbumPage()">➕ Nova página</button><button class="btn" style="width:100%;margin-bottom:8px;" onclick="document.getElementById('albumPageFile').click()">📸 Adicionar fotos</button><button class="btn" style="width:100%;margin-bottom:8px;" onclick="clearAlbumPages()">🗑 Limpar todas páginas</button><button class="btn" style="width:100%;" onclick="clearAlbumCover()">🖼️ Limpar capa</button><p style="font-size:11px;margin-top:8px;" id="page-count">0 páginas</p></div>
             <div class="card"><div class="card-title">🎨 Molduras</div><div class="frames-grid" id="album-frames-grid" style="max-height:200px;"></div></div>
-            <div class="card"><div class="card-title">📄 Encadernação</div><select class="btn" style="width:100%;" id="binding-type"><option>Espiral / Wire-O</option><option>Costura artesanal</option><option>Canaleta</option><option>Lombada quadrada</option></select></div>
             <div class="card"><div class="card-title">⬇ Exportar</div><button class="btn btn-accent" style="width:100%;margin-bottom:8px;" onclick="exportAlbumPDF()">PDF completo</button><button class="btn" style="width:100%;" onclick="exportAlbumCoverOnly()">Só a capa</button></div>
           </div>
         </div>
@@ -403,23 +401,23 @@ input[type="file"] { display: none; }
             <input type="file" id="marcadorFile" accept="image/*" style="display:none" onchange="loadMarcadorPhoto(this)">
           </div>
           <div class="panel" style="max-height:600px;overflow-y:auto;">
-            <div class="card"><div class="card-title">🎨 Temas de cor</div><div class="tema-grid"><div class="tema-dot selected" style="background:#C4602A;" data-tema="marc-coral" onclick="setMarcTema('marc-coral',this)"></div><div class="tema-dot" style="background:#3D6B5E;" data-tema="marc-teal" onclick="setMarcTema('marc-teal',this)"></div><div class="tema-dot" style="background:#D4537E;" data-tema="marc-rosa" onclick="setMarcTema('marc-rosa',this)"></div><div class="tema-dot" style="background:#1a3a5c;" data-tema="marc-navy" onclick="setMarcTema('marc-navy',this)"></div><div class="tema-dot" style="background:#A07820;" data-tema="marc-gold" onclick="setMarcTema('marc-gold',this)"></div><div class="tema-dot" style="background:#1C1A17;" data-tema="marc-preto" onclick="setMarcTema('marc-preto',this)"></div><div class="tema-dot" style="background:#3a7a30;" data-tema="marc-verde" onclick="setMarcTema('marc-verde',this)"></div></div></div>
-            <div class="card"><div class="card-title">📐 Formato do topo</div><div class="topo-grid"><button class="topo-btn selected" data-topo="marc-top-v" onclick="setMarcTopo('marc-top-v',this)">▼ Ponta V</button><button class="topo-btn" data-topo="marc-top-arc" onclick="setMarcTopo('marc-top-arc',this)">⌒ Arco</button><button class="topo-btn" data-topo="marc-top-ret" onclick="setMarcTopo('marc-top-ret',this)">▬ Reta</button><button class="topo-btn" data-topo="marc-top-zig" onclick="setMarcTopo('marc-top-zig',this)">⌇ Zigzag</button></div></div>
+            <div class="card"><div class="card-title">🎨 Temas de cor</div><div class="tema-grid"><div class="tema-dot selected" style="background:#C4602A;" onclick="setMarcTema('marc-coral',this)"></div><div class="tema-dot" style="background:#3D6B5E;" onclick="setMarcTema('marc-teal',this)"></div><div class="tema-dot" style="background:#D4537E;" onclick="setMarcTema('marc-rosa',this)"></div><div class="tema-dot" style="background:#1a3a5c;" onclick="setMarcTema('marc-navy',this)"></div><div class="tema-dot" style="background:#A07820;" onclick="setMarcTema('marc-gold',this)"></div><div class="tema-dot" style="background:#1C1A17;" onclick="setMarcTema('marc-preto',this)"></div><div class="tema-dot" style="background:#3a7a30;" onclick="setMarcTema('marc-verde',this)"></div></div></div>
+            <div class="card"><div class="card-title">📐 Formato do topo</div><div class="topo-grid"><button class="topo-btn selected" onclick="setMarcTopo('marc-top-v',this)">▼ Ponta V</button><button class="topo-btn" onclick="setMarcTopo('marc-top-arc',this)">⌒ Arco</button><button class="topo-btn" onclick="setMarcTopo('marc-top-ret',this)">▬ Reta</button><button class="topo-btn" onclick="setMarcTopo('marc-top-zig',this)">⌇ Zigzag</button></div></div>
             <div class="card"><div class="card-title">📚 Categorias Temáticas</div><div id="marc-cats" style="max-height:200px;overflow-y:auto;"></div></div>
             <div class="card"><div class="card-title">✏️ Textos</div><input class="marc-input" id="marc-ribbon" placeholder="Texto da faixa" value="FotoStúdio" oninput="updateMarcTexts()"><input class="marc-input" id="marc-title" placeholder="Título" value="Minha Leitura" oninput="updateMarcTexts()"><input class="marc-input" id="marc-subtitle" placeholder="Subtítulo" value="2026" oninput="updateMarcTexts()"><textarea class="marc-input" id="marc-quote" rows="2" placeholder="Frase de efeito" oninput="updateMarcTexts()">"A leitura é a viagem dos que não podem tomar o trem."</textarea></div>
             <div class="card"><div class="card-title">🔘 Furo e barbante</div><label style="display:flex;align-items:center;gap:8px;"><input type="checkbox" id="marc-hole" checked onchange="updateMarcHole()"> Mostrar furo e barbante</label></div>
-            <div class="card"><div class="card-title">⬇ Exportar</div><button class="btn btn-accent" style="width:100%;" onclick="exportMarcadorPDF()">Salvar PDF (4 por folha)</button><p style="font-size:10px;color:var(--muted);margin-top:6px;">4 marcadores por folha A4, formato retangular fino</p></div>
+            <div class="card"><div class="card-title">⬇ Exportar</div><button class="btn btn-accent" style="width:100%;" onclick="exportMarcadorPDF()">Salvar PDF (4 por folha)</button></div>
           </div>
         </div>
       </div>
 
-      <!-- MURAL -->
+      <!-- MURAL - NOVO VISUAL COM MOLDURAS ESTILIZADAS -->
       <div class="section" id="sec-mural">
-        <div class="livre-layout">
+        <div class="mural-layout">
           <div>
             <div class="tag-pill">🖼️ Mural de fotos — arraste para reposicionar</div>
-            <div id="canvas-mural" ondrop="muralDrop(event)" ondragover="event.preventDefault()" style="position:relative; height:500px; background:#c8a070; border-radius:12px; border:2px solid #b09060; overflow:hidden;">
-              <div id="mural-hint" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none;"><div style="font-size:48px;">🖼️</div><p>Arraste fotos para cá</p></div>
+            <div id="canvas-mural" ondrop="muralDrop(event)" ondragover="event.preventDefault()" style="position:relative; height:550px; background:#e8d4bc; border-radius:16px; border:2px solid #b09060; overflow:auto;">
+              <div id="mural-hint" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none;"><div style="font-size:48px;">🖼️</div><p>Arraste fotos para cá</p><p style="font-size:12px;">Escolha o estilo da moldura no painel</p></div>
             </div>
             <input type="file" id="fileInput-mural" multiple accept="image/*" style="display:none" onchange="muralAddFiles(this.files)">
             <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
@@ -430,17 +428,36 @@ input[type="file"] { display: none; }
             </div>
           </div>
           <div class="panel">
-            <div class="card"><div class="card-title">🎨 Estilo das fotos (8 opções)</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;"><button class="btn" id="style-polaroid" onclick="muralSetStyle('pol')">🖼️ Polaroide</button><button class="btn" id="style-simple" onclick="muralSetStyle('simple')">🪞 Simples</button><button class="btn" id="style-vintage" onclick="muralSetStyle('vintage')">📷 Vintage</button><button class="btn" id="style-wide" onclick="muralSetStyle('wide')">📐 Larga</button><button class="btn" id="style-minimal" onclick="muralSetStyle('minimal')">⬜ Minimal</button><button class="btn" id="style-film" onclick="muralSetStyle('film')">🎞️ Filme</button><button class="btn" id="style-rustic" onclick="muralSetStyle('rustic')">🪵 Rústica</button><button class="btn" id="style-gold" onclick="muralSetStyle('gold')">✨ Dourada</button></div></div>
-            <div class="card"><div class="card-title">🧱 Parede (8 opções)</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;"><div class="wall-btn selected" onclick="muralSetWall('wood',this)" style="background:#c8a070;"></div><div class="wall-btn" onclick="muralSetWall('brick',this)" style="background:#8B4030;"></div><div class="wall-btn" onclick="muralSetWall('white',this)" style="background:#f0f0f0;"></div><div class="wall-btn" onclick="muralSetWall('dark',this)" style="background:#222;"></div><div class="wall-btn" onclick="muralSetWall('green',this)" style="background:#3a6030;"></div><div class="wall-btn" onclick="muralSetWall('blue',this)" style="background:#1a3a6a;"></div><div class="wall-btn" onclick="muralSetWall('wood-dark',this)" style="background:#5a3a1a;"></div><div class="wall-btn" onclick="muralSetWall('stone',this)" style="background:#6a6a6a;"></div></div></div>
-            <div class="card"><div class="card-title">📏 Tamanho</div><input type="range" min="80" max="200" value="130" id="mural-size" oninput="muralResize(this.value)" style="width:100%"><p style="font-size:11px;"><span id="mural-size-label">130px</span></p></div>
-            <div class="card"><div class="card-title">💡 Dica</div><p style="font-size:11px;">Arraste as fotos para reposicionar. O barbante e o pregador aparecem automaticamente acima da foto.</p></div>
+            <div class="card"><div class="card-title">🎨 Estilo da moldura</div>
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+                <button class="btn" style="background:white;border:2px solid #ddd;" onclick="muralSetMoldura('polaroid')">🖼️ Polaroide</button>
+                <button class="btn" style="background:#DEB887;border:2px solid #8B5A2B;" onclick="muralSetMoldura('madeira')">🪵 Madeira</button>
+                <button class="btn" style="background:#F5E6D3;border:2px solid #D4AF37;" onclick="muralSetMoldura('dourada')">✨ Dourada</button>
+                <button class="btn" style="background:#F0E6D0;border:2px solid #C8A882;" onclick="muralSetMoldura('vintage')">📷 Vintage</button>
+                <button class="btn" style="background:#111;color:white;border:2px solid #444;" onclick="muralSetMoldura('filme')">🎞️ Filme</button>
+                <button class="btn" style="background:#C8A882;border:2px solid #8B5A2B;" onclick="muralSetMoldura('rustica')">🪵 Rústica</button>
+                <button class="btn" style="background:#fff;border:2px solid #333;" onclick="muralSetMoldura('moderna')">⬜ Moderna</button>
+              </div>
+            </div>
+            <div class="card"><div class="card-title">🧱 Fundo da parede</div>
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+                <div class="wall-btn selected" onclick="muralSetWall('madeira',this)" style="background:#e8d4bc;"></div>
+                <div class="wall-btn" onclick="muralSetWall('tijolo',this)" style="background:#b87c5a;"></div>
+                <div class="wall-btn" onclick="muralSetWall('branco',this)" style="background:#f5f5f0;"></div>
+                <div class="wall-btn" onclick="muralSetWall('preto',this)" style="background:#2a2a2a;"></div>
+                <div class="wall-btn" onclick="muralSetWall('verde',this)" style="background:#5a7a4a;"></div>
+                <div class="wall-btn" onclick="muralSetWall('azul',this)" style="background:#4a6a8a;"></div>
+              </div>
+            </div>
+            <div class="card"><div class="card-title">📏 Tamanho</div><input type="range" min="80" max="200" value="130" id="mural-size" oninput="muralResize(this.value)" style="width:100%"><p><span id="mural-size-label">130px</span></p></div>
+            <div class="card"><div class="card-title">💡 Frase do mural</div><input type="text" id="mural-frase" placeholder="Ex: I never want to stop making memories with you" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px;" value="I never want to stop making memories with you" oninput="muralAtualizarFrase()"><div id="mural-frase-preview" style="margin-top:8px; font-style:italic; text-align:center; font-size:12px; color:var(--muted);">I never want to stop making memories with you</div></div>
           </div>
         </div>
       </div>
 
       <!-- AJUDA -->
       <div class="section" id="sec-ajuda">
-        <div class="card"><div class="card-title">❓ Ajuda</div><p><strong>Modo Livre:</strong> Arraste fotos, escolha entre várias molduras e fundos, adicione texto e exporte PDF mantendo a posição das fotos.<br><strong>Calendário:</strong> Selecione o ano, adicione 2 fotos, escolha moldura e fundo, exporte em A4 retrato ou paisagem.<br><strong>Folhinha:</strong> Adicione uma foto por mês ou em lote, exporte 12 páginas com espaço para grampo e opção de capa.<br><strong>Álbum:</strong> Crie capa personalizada com foto, adicione páginas, exporte com margem para encadernação.<br><strong>Marcador:</strong> Escolha entre várias categorias com ilustrações exclusivas, adicione foto, exporte 4 por folha A4.<br><strong>Mural:</strong> Crie um mural com fotos penduradas por barbante e prego, vários estilos e opções de parede.</p></div>
+        <div class="card"><div class="card-title">❓ Ajuda</div><p><strong>Modo Livre:</strong> Arraste fotos, escolha molduras e fundos, exporte PDF mantendo posições.<br><strong>Calendário:</strong> Selecione o ano, adicione 2 fotos, escolha moldura e fundo.<br><strong>Folhinha:</strong> Adicione uma foto por mês ou em lote, exporte 12 páginas com espaço para grampo.<br><strong>Álbum:</strong> Crie capa personalizada, adicione páginas, exporte com margem para encadernação.<br><strong>Marcador:</strong> Escolha categorias com ilustrações, adicione foto, exporte 4 por folha A4.<br><strong>Mural:</strong> Crie um mural com fotos em molduras estilizadas, personalize o fundo e adicione uma frase especial.</p></div>
       </div>
     </div>
   </div>
@@ -466,17 +483,18 @@ let currentCalFrame = 'frame-classic';
 let currentCalBg = '#F9F5EE';
 let currentLivreBg = '#F5F0E8';
 let currentAlbumFrame = 'frame-classic';
-let muralStyle = 'pol';
-let muralSize = 130;
+let muralFotos = [];
+let muralMolduraAtual = 'polaroid';
+let muralFrase = 'I never want to stop making memories with you';
+let muralFundo = 'madeira';
+let muralTamanho = 130;
 let dragItem = null, dragStartX = 0, dragStartY = 0, dragLeft = 0, dragTop = 0;
-
-// Posições das fotos no modo livre
 let fotoPositions = [];
 
 const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const MONTHS_SHORT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 
-// FUNDOS PERSONALIZADOS
+// FUNDOS
 const FUNDOS = [
   { name: 'Creme', color: '#F5F0E8', value: 'color:#F5F0E8' },
   { name: 'Preto', color: '#1a1a1a', value: 'color:#1a1a1a' },
@@ -485,14 +503,7 @@ const FUNDOS = [
   { name: 'Lavanda', color: '#F0E8F5', value: 'color:#F0E8F5' },
   { name: 'Verde Menta', color: '#D4E8C2', value: 'color:#D4E8C2' },
   { name: 'Madeira Clara', color: '#DEB887', value: 'color:#DEB887' },
-  { name: 'Madeira Escura', color: '#8B5A2B', value: 'color:#8B5A2B' },
-  { name: 'Tijolo', color: '#B22222', value: 'color:#B22222' },
-  { name: 'Cinza', color: '#808080', value: 'color:#808080' },
-  { name: 'Rosa', color: '#FFB6C1', value: 'color:#FFB6C1' },
-  { name: 'Areia', color: '#F4A460', value: 'color:#F4A460' },
-  { name: 'Azul Céu', color: '#87CEEB', value: 'color:#87CEEB' },
-  { name: 'Pôr do Sol', color: '#FFA07A', value: 'color:#FFA07A' },
-  { name: 'Floresta', color: '#2E8B57', value: 'color:#2E8B57' }
+  { name: 'Madeira Escura', color: '#8B5A2B', value: 'color:#8B5A2B' }
 ];
 
 // MOLDURAS
@@ -513,27 +524,19 @@ const FRAMES = [
   { id: 'frame-aquarela', label: 'Aquarela', icon: '🎨', bg: 'linear-gradient(135deg,#fce4ec,#e3f2fd)' },
   { id: 'frame-retro70', label: 'Retrô 70s', icon: '🟠', bg: '#E8651A' },
   { id: 'frame-gold', label: 'Gold', icon: '✨', bg: '#1a1100' },
-  { id: 'frame-madeira', label: 'Madeira', icon: '🪵', bg: '#8B5A2B' },
-  { id: 'frame-ouro', label: 'Ouro', icon: '👑', bg: '#D4AF37' },
-  { id: 'frame-prata', label: 'Prata', icon: '🥈', bg: '#C0C0C0' }
+  { id: 'frame-madeira', label: 'Madeira', icon: '🪵', bg: '#8B5A2B' }
 ];
 
-// CATEGORIAS MARCADOR COM ILUSTRAÇÕES TEMÁTICAS
+// CATEGORIAS MARCADOR
 const MARC_CATS = {
-  livre: { ribbon: '📚 Leitura', title: 'Minha Leitura', subtitle: '2026', quote: '"A leitura é a viagem dos que não podem tomar o trem."', icon: '📚', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#F9F5EE"/><rect x="20" y="20" width="60" height="80" fill="#fff" stroke="#C4602A"/><text x="50" y="60" text-anchor="middle" font-size="20" fill="#C4602A">📖</text></svg>' },
-  harry_potter: { ribbon: '⚡ HP', title: 'Harry Potter', subtitle: 'Hogwarts', quote: '"É nossa escolha que mostra o que realmente somos." — Dumbledore', icon: '⚡', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#1a0a35"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#FFD700">⚡</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#FFD700">Harry Potter</text></svg>' },
-  dragonball: { ribbon: '🐉 Dragon Ball', title: 'Dragon Ball Z', subtitle: 'Z Fighters', quote: '"Não importa o quão forte você seja, sempre há alguém maior."', icon: '🐉', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#FF8C00"/><circle cx="50" cy="55" r="25" fill="#FFD700" stroke="#FF4500"/><text x="50" y="65" text-anchor="middle" font-size="30" fill="#FF4500">⭐</text><text x="50" y="90" text-anchor="middle" font-size="10" fill="#000">Dragon Ball Z</text></svg>' },
-  onepiece: { ribbon: '🏴‍☠️ One Piece', title: 'One Piece', subtitle: 'Grand Line', quote: '"Eu vou ser o Rei dos Piratas!" — Luffy', icon: '🏴‍☠️', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#0a3060"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#FFD700">🏴‍☠️</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#FFD700">One Piece</text></svg>' },
-  naruto: { ribbon: '🍥 Naruto', title: 'Naruto', subtitle: 'Konoha', quote: '"Nunca vou desistir — esse é meu nindo!"', icon: '🍥', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#FF6600"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#000">🍥</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#000">Naruto</text></svg>' },
-  pokemon: { ribbon: '⚡ Pokémon', title: 'Pokémon', subtitle: 'Gotta catch em all', quote: '"Eu vou ser o melhor mestre Pokémon!"', icon: '⚡', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#FFD700"/><circle cx="50" cy="55" r="25" fill="#CC0000"/><text x="50" y="65" text-anchor="middle" font-size="30" fill="#FFD700">⚡</text><text x="50" y="90" text-anchor="middle" font-size="10" fill="#CC0000">Pokémon</text></svg>' },
-  zelda: { ribbon: '🗡 Zelda', title: 'The Legend of Zelda', subtitle: 'Hyrule', quote: '"É perigoso ir sozinho!"', icon: '🗡️', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#0a1a0a"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#FFD700">🗡️</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#FFD700">Zelda</text></svg>' },
-  starwars: { ribbon: '⚔ Star Wars', title: 'Star Wars', subtitle: 'May the Force', quote: '"Que a Força esteja com você."', icon: '⚔️', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#000"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#FFD700">⚔️</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#FFD700">Star Wars</text></svg>' },
-  vingadores: { ribbon: '🦸 Vingadores', title: 'Vingadores', subtitle: 'Avengers', quote: '"Vingadores! Unidos!"', icon: '🦸', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#1a0a0a"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#CC0000">🦸</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#CC0000">Avengers</text></svg>' },
-  minecraft: { ribbon: '⛏ Minecraft', title: 'Minecraft', subtitle: 'Crafting', quote: '"O único limite é a imaginação."', icon: '⛏️', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#87CEEB"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#5D8A3C">⛏️</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#5D8A3C">Minecraft</text></svg>' },
-  beatles: { ribbon: '🎸 Beatles', title: 'The Beatles', subtitle: 'Abbey Road', quote: '"All you need is love."', icon: '🎸', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#fff"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#000">🎸</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#000">The Beatles</text></svg>' },
-  amor: { ribbon: '❤ Amor', title: 'Para Sempre', subtitle: 'Amor', quote: '"O amor não se vê com os olhos, mas com a alma."', icon: '❤️', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#2d0a1a"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#FF6B9D">❤️</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#FF6B9D">Amor</text></svg>' },
-  viagem: { ribbon: '✈ Viagem', title: 'Meus Destinos', subtitle: 'Mundo', quote: '"Viajar é trocar a roupa da alma."', icon: '✈️', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#001448"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#4FC3F7">✈️</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#4FC3F7">Viagem</text></svg>' },
-  natal: { ribbon: '🎄 Natal', title: 'Feliz Natal', subtitle: 'Boas Festas', quote: '"O Natal é amor em ação."', icon: '🎄', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#001840"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#FFD700">🎄</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#FFD700">Natal</text></svg>' }
+  livre: { ribbon: '📚 Leitura', title: 'Minha Leitura', subtitle: '2026', quote: '"A leitura é a viagem dos que não podem tomar o trem."', icon: '📚' },
+  dragonball: { ribbon: '🐉 Dragon Ball', title: 'Dragon Ball Z', subtitle: 'Z Fighters', quote: '"Não importa o quão forte você seja, sempre há alguém maior."', icon: '🐉' },
+  onepiece: { ribbon: '🏴‍☠️ One Piece', title: 'One Piece', subtitle: 'Grand Line', quote: '"Eu vou ser o Rei dos Piratas!" — Luffy', icon: '🏴‍☠️' },
+  naruto: { ribbon: '🍥 Naruto', title: 'Naruto', subtitle: 'Konoha', quote: '"Nunca vou desistir — esse é meu nindo!"', icon: '🍥' },
+  pokemon: { ribbon: '⚡ Pokémon', title: 'Pokémon', subtitle: 'Gotta catch em all', quote: '"Eu vou ser o melhor mestre Pokémon!"', icon: '⚡' },
+  harry_potter: { ribbon: '⚡ HP', title: 'Harry Potter', subtitle: 'Hogwarts', quote: '"É nossa escolha que mostra o que realmente somos." — Dumbledore', icon: '⚡' },
+  starwars: { ribbon: '⚔ Star Wars', title: 'Star Wars', subtitle: 'May the Force', quote: '"Que a Força esteja com você."', icon: '⚔️' },
+  vingadores: { ribbon: '🦸 Vingadores', title: 'Vingadores', subtitle: 'Avengers', quote: '"Vingadores! Unidos!"', icon: '🦸' }
 };
 
 // ==================== FUNÇÕES AUXILIARES ====================
@@ -555,7 +558,7 @@ function switchTab(id, el) {
   document.getElementById('sec-' + id).classList.add('active');
   el.classList.add('active');
   currentTab = id;
-  const titles = { livre: ['Modo Livre', 'Monte seu layout com fotos e molduras'], calendario: ['Calendário Anual', 'Todos os meses em uma folha'], folhinha: ['Folhinha Mensal', '12 páginas individuais'], album: ['Álbum de Fotos', 'Capa editável com páginas'], marcador: ['Marcador de Livro', 'Personalize seus marcadores'], mural: ['Mural de Fotos', 'Crie um mural com fotos penduradas'], ajuda: ['Central de Ajuda', 'Guia completo'] };
+  const titles = { livre: ['Modo Livre', 'Monte seu layout com fotos e molduras'], calendario: ['Calendário Anual', 'Todos os meses em uma folha'], folhinha: ['Folhinha Mensal', '12 páginas individuais'], album: ['Álbum de Fotos', 'Capa editável com páginas'], marcador: ['Marcador de Livro', 'Personalize seus marcadores'], mural: ['Mural de Fotos', 'Crie um mural com fotos em molduras estilizadas'], ajuda: ['Central de Ajuda', 'Guia completo'] };
   document.getElementById('topbar-title').textContent = titles[id]?.[0] || 'FotoStúdio';
   document.getElementById('topbar-desc').textContent = titles[id]?.[1] || '';
 }
@@ -587,7 +590,7 @@ function addPhotosLivre(files) {
       pol.style.transform = `rotate(${(Math.random() * 8 - 4).toFixed(1)}deg)`;
       pol.style.width = '150px';
       
-      fotoPositions.push({ left: left, top: top, rot: pol.style.transform, frame: currentFrame });
+      fotoPositions.push({ left: left, top: top, rot: pol.style.transform, frame: currentFrame, src: e.target.result });
       
       const imgWrap = document.createElement('div');
       imgWrap.className = 'polaroid-img-wrap';
@@ -744,10 +747,7 @@ function setCanvasBg(value, el) {
   if (el) el.classList.add('selected');
 }
 
-function dropHandler(e) { 
-  e.preventDefault(); 
-  addPhotosLivre(e.dataTransfer.files); 
-}
+function dropHandler(e) { e.preventDefault(); addPhotosLivre(e.dataTransfer.files); }
 function dragOverHandler(e) { e.preventDefault(); }
 
 // ==================== MOLDURAS ====================
@@ -786,10 +786,6 @@ function selectCalFrame(frameId) {
   currentCalFrame = frameId;
   document.querySelectorAll('#cal-frames-grid .frame-swatch').forEach(sw => sw.classList.remove('selected'));
   document.querySelector(`#cal-frames-grid .frame-swatch[data-frame="${frameId}"]`)?.classList.add('selected');
-  document.querySelectorAll('#cal-preview .polaroid').forEach(p => {
-    const classes = p.className.split(' ').filter(c => !c.startsWith('frame-'));
-    p.className = [...classes, frameId].join(' ');
-  });
   showToast(`Moldura do calendário: ${FRAMES.find(f => f.id === frameId)?.label || frameId}`);
 }
 
@@ -888,7 +884,6 @@ function exportCalendarioPDF() {
   const W = isPortrait ? 210 : 297;
   const H = isPortrait ? 297 : 210;
   
-  // Fundo
   if (currentCalBg && currentCalBg.startsWith('color:')) {
     const rgb = currentCalBg.replace('color:', '');
     doc.setFillColor(rgb);
@@ -897,51 +892,23 @@ function exportCalendarioPDF() {
   }
   doc.rect(0, 0, W, H, 'F');
   
-  // Título
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(24);
   doc.setTextColor(28, 26, 23);
   doc.text(`Calendário ${calYear}`, W / 2, 25, { align: 'center' });
   
-  // Fotos com moldura
   const img0 = document.getElementById('cal-img-0')?.querySelector('img');
   const img1 = document.getElementById('cal-img-1')?.querySelector('img');
-  const frameStyle = FRAMES.find(f => f.id === currentCalFrame);
   
   if (isPortrait) {
-    if (img0 && img0.src && !img0.src.includes('undefined')) { 
-      try { 
-        doc.setFillColor(255,255,255);
-        doc.rect(20, 40, 65, 75, 'F');
-        doc.addImage(img0.src, 'JPEG', 25, 45, 55, 55); 
-      } catch(e) {} 
-    }
-    if (img1 && img1.src && !img1.src.includes('undefined')) { 
-      try { 
-        doc.setFillColor(255,255,255);
-        doc.rect(W - 85, 40, 65, 75, 'F');
-        doc.addImage(img1.src, 'JPEG', W - 80, 45, 55, 55); 
-      } catch(e) {} 
-    }
+    if (img0 && img0.src && !img0.src.includes('undefined')) { try { doc.addImage(img0.src, 'JPEG', 25, 45, 55, 55); } catch(e) {} }
+    if (img1 && img1.src && !img1.src.includes('undefined')) { try { doc.addImage(img1.src, 'JPEG', W - 80, 45, 55, 55); } catch(e) {} }
   } else {
-    if (img0 && img0.src && !img0.src.includes('undefined')) { 
-      try { 
-        doc.setFillColor(255,255,255);
-        doc.rect(35, 35, 75, 85, 'F');
-        doc.addImage(img0.src, 'JPEG', 40, 40, 65, 65); 
-      } catch(e) {} 
-    }
-    if (img1 && img1.src && !img1.src.includes('undefined')) { 
-      try { 
-        doc.setFillColor(255,255,255);
-        doc.rect(W - 110, 35, 75, 85, 'F');
-        doc.addImage(img1.src, 'JPEG', W - 105, 40, 65, 65); 
-      } catch(e) {} 
-    }
+    if (img0 && img0.src && !img0.src.includes('undefined')) { try { doc.addImage(img0.src, 'JPEG', 40, 40, 65, 65); } catch(e) {} }
+    if (img1 && img1.src && !img1.src.includes('undefined')) { try { doc.addImage(img1.src, 'JPEG', W - 105, 40, 65, 65); } catch(e) {} }
   }
   
-  // Calendário ajustado para não cortar
-  let startY = isPortrait ? 125 : 135;
+  let startY = isPortrait ? 115 : 125;
   let cellW = isPortrait ? 45 : 68;
   let cellH = isPortrait ? 28 : 40;
   
@@ -1021,7 +988,7 @@ function addFolhinhaCover() {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = ev => { folhinhaCover = ev.target.result; showToast('Capa adicionada! Será incluída no PDF'); };
+    reader.onload = ev => { folhinhaCover = ev.target.result; showToast('Capa adicionada!'); };
     reader.readAsDataURL(file);
   };
   input.click();
@@ -1043,7 +1010,6 @@ function exportFolhinhaPDF() {
   const W = isPortrait ? 210 : 297;
   const H = isPortrait ? 297 : 210;
   
-  // Capa se existir
   if (folhinhaCover) {
     doc.setFillColor(249, 245, 238);
     doc.rect(0, 0, W, H, 'F');
@@ -1060,7 +1026,6 @@ function exportFolhinhaPDF() {
     if (m > 0 || folhinhaCover) doc.addPage();
     doc.setFillColor(249, 245, 238);
     doc.rect(0, 0, W, H, 'F');
-    
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(18);
     doc.setTextColor(28, 26, 23);
@@ -1069,22 +1034,16 @@ function exportFolhinhaPDF() {
     doc.text(String(calYear), W / 2, 30, { align: 'center' });
     
     if (folhinhaPhotos[m]) {
-      // Moldura no PDF
       doc.setFillColor(255,255,255);
       doc.rect(W/2 - 40, 40, 80, 95, 'F');
       try { doc.addImage(folhinhaPhotos[m], 'JPEG', W/2 - 35, 45, 70, 70); } catch(e) {}
     }
     
-    // Calendário
     const firstDay = new Date(calYear, m, 1).getDay();
     const daysInMonth = new Date(calYear, m + 1, 0).getDate();
     let y = 140;
     const days = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
-    for (let i = 0; i < 7; i++) {
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(8);
-      doc.text(days[i], 20 + i * 24, y);
-    }
+    for (let i = 0; i < 7; i++) { doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.text(days[i], 20 + i * 24, y); }
     y += 8;
     let dayCount = 1;
     for (let row = 0; row < 6; row++) {
@@ -1098,7 +1057,6 @@ function exportFolhinhaPDF() {
       }
     }
     
-    // Marcas de grampo
     doc.setFillColor(120, 112, 100);
     doc.circle(15, 15, 1.5, 'F');
     doc.circle(W - 15, 15, 1.5, 'F');
@@ -1203,7 +1161,6 @@ function exportAlbumPDF() {
   const subtitle = document.getElementById('album-subtitle').value || '';
   const bindingMargin = 18;
   
-  // Capa
   doc.setFillColor(28, 26, 23);
   doc.rect(0, 0, W, H, 'F');
   doc.setFillColor(196, 96, 42);
@@ -1219,7 +1176,6 @@ function exportAlbumPDF() {
   doc.setTextColor(200, 200, 200);
   doc.text(subtitle, W/2, H/2 + 45, { align: 'center' });
   
-  // Páginas com moldura
   if (albumPages.length > 0) {
     albumPages.forEach((src, i) => {
       if (src) {
@@ -1228,15 +1184,12 @@ function exportAlbumPDF() {
         doc.rect(0, 0, W, H, 'F');
         doc.setFillColor(196, 96, 42);
         doc.rect(0, 0, bindingMargin, H, 'F');
-        
-        // Moldura
         doc.setFillColor(255,255,255);
         const imgW = W - bindingMargin - 40;
         const imgH = H - 50;
         const imgX = bindingMargin + 20;
         const imgY = 20;
         doc.rect(imgX - 5, imgY - 5, imgW + 10, imgH + 10, 'F');
-        
         try { doc.addImage(src, 'JPEG', imgX, imgY, imgW, imgH); } catch(e) {}
         doc.setFontSize(10);
         doc.setTextColor(120, 112, 100);
@@ -1305,18 +1258,14 @@ function buildMarcadores() {
   }
   marcadores.forEach((m, i) => {
     const outer = document.createElement('div');
-    outer.className = 'marcador-outer';
     outer.style.display = 'inline-block';
     outer.style.margin = '10px';
-    
     if (m.hole) {
       const stringDiv = document.createElement('div');
-      stringDiv.className = 'marcador-string-el';
       stringDiv.style.width = '2px';
       stringDiv.style.height = '24px';
       stringDiv.style.background = 'repeating-linear-gradient(to bottom, #C8A882 0, #C8A882 3px, #8B6145 3px, #8B6145 6px)';
       const holeDiv = document.createElement('div');
-      holeDiv.className = 'marcador-hole-el';
       holeDiv.style.width = '12px';
       holeDiv.style.height = '12px';
       holeDiv.style.borderRadius = '50%';
@@ -1325,7 +1274,6 @@ function buildMarcadores() {
       outer.appendChild(stringDiv);
       outer.appendChild(holeDiv);
     }
-    
     const item = document.createElement('div');
     item.className = `marcador-item ${m.tema} ${m.topo}`;
     item.style.width = '130px';
@@ -1464,57 +1412,73 @@ function exportMarcadorPDF() {
   showToast(`${marcadores.length} marcadores exportados!`);
 }
 
-// ==================== MURAL ====================
+// ==================== MURAL - NOVO VISUAL ====================
 function muralAddFiles(files) {
   const canvas = document.getElementById('canvas-mural');
   const hint = document.getElementById('mural-hint');
   if (hint) hint.style.display = 'none';
-  Array.from(files).forEach(file => {
+  Array.from(files).forEach((file, idx) => {
     const reader = new FileReader();
     reader.onload = e => {
-      const photo = document.createElement('div');
-      photo.className = `mural-photo ${muralStyle}`;
-      photo.style.position = 'absolute';
-      const left = 20 + Math.random() * 300;
-      const top = 40 + Math.random() * 200;
-      photo.style.left = left + 'px';
-      photo.style.top = top + 'px';
-      photo.style.width = muralSize + 'px';
+      const foto = document.createElement('div');
+      foto.className = 'mural-foto';
+      const left = 30 + Math.random() * 300;
+      const top = 40 + Math.random() * 250;
+      foto.style.left = left + 'px';
+      foto.style.top = top + 'px';
+      foto.style.width = muralTamanho + 'px';
+      
+      const moldura = document.createElement('div');
+      moldura.className = `moldura ${muralMolduraAtual}`;
+      
       const img = document.createElement('img');
       img.src = e.target.result;
       img.style.width = '100%';
       img.style.height = '100%';
       img.style.objectFit = 'cover';
-      const rm = document.createElement('button');
-      rm.className = 'mp-rm';
-      rm.innerHTML = '×';
-      rm.onclick = () => photo.remove();
-      photo.appendChild(img);
-      photo.appendChild(rm);
       
-      const string = document.createElement('div');
-      string.className = 'mural-string';
-      string.style.height = '22px';
-      const nail = document.createElement('div');
-      nail.className = 'mural-nail';
-      photo.appendChild(string);
-      photo.appendChild(nail);
+      const legendaDiv = document.createElement('div');
+      legendaDiv.className = 'legenda';
+      const legendaInput = document.createElement('input');
+      legendaInput.type = 'text';
+      legendaInput.placeholder = 'Legenda...';
+      legendaDiv.appendChild(legendaInput);
       
-      photo.addEventListener('mousedown', (e) => {
-        if (e.target === rm) return;
-        dragItem = photo;
-        dragStartX = e.clientX;
-        dragStartY = e.clientY;
-        dragLeft = parseFloat(photo.style.left);
-        dragTop = parseFloat(photo.style.top);
-        photo.style.zIndex = 100;
-        e.preventDefault();
-      });
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove-foto';
+      removeBtn.innerHTML = '×';
+      removeBtn.onclick = () => foto.remove();
       
-      canvas.appendChild(photo);
+      const prego = document.createElement('div');
+      prego.className = 'prego';
+      const barbante = document.createElement('div');
+      barbante.className = 'barbante';
+      
+      moldura.appendChild(img);
+      foto.appendChild(moldura);
+      foto.appendChild(legendaDiv);
+      foto.appendChild(removeBtn);
+      foto.appendChild(prego);
+      foto.appendChild(barbante);
+      canvas.appendChild(foto);
+      
+      muralFotos.push({ element: foto, left: left, top: top, src: e.target.result, legenda: '' });
+      
+      foto.addEventListener('mousedown', muralDragStart);
     };
     reader.readAsDataURL(file);
   });
+}
+
+function muralDragStart(e) {
+  if (e.target.classList.contains('remove-foto') || e.target.tagName === 'INPUT') return;
+  dragItem = e.currentTarget;
+  dragStartX = e.clientX;
+  dragStartY = e.clientY;
+  dragLeft = parseFloat(dragItem.style.left);
+  dragTop = parseFloat(dragItem.style.top);
+  dragItem.style.zIndex = 100;
+  e.preventDefault();
 }
 document.addEventListener('mousemove', (e) => {
   if (!dragItem) return;
@@ -1526,39 +1490,41 @@ document.addEventListener('mousemove', (e) => {
   ny = Math.max(0, Math.min(cr.height - dragItem.offsetHeight, ny));
   dragItem.style.left = nx + 'px';
   dragItem.style.top = ny + 'px';
-  const string = dragItem.querySelector('.mural-string');
-  if (string) string.style.height = Math.max(18, ny + 8) + 'px';
+  const barbante = dragItem.querySelector('.barbante');
+  if (barbante) barbante.style.height = Math.max(18, ny + 8) + 'px';
 });
 document.addEventListener('mouseup', () => { if (dragItem) { dragItem.style.zIndex = ''; dragItem = null; } });
+
 function muralClear() {
   const canvas = document.getElementById('canvas-mural');
-  canvas.querySelectorAll('.mural-photo, .mural-txt').forEach(el => el.remove());
+  canvas.querySelectorAll('.mural-foto, .mural-txt').forEach(el => el.remove());
   document.getElementById('mural-hint').style.display = '';
+  muralFotos = [];
   showToast('Mural limpo!');
 }
-function muralSetStyle(s) { 
-  muralStyle = s; 
-  document.querySelectorAll('#canvas-mural .mural-photo').forEach(p => { 
-    p.classList.remove('pol', 'simple', 'vintage', 'wide', 'minimal', 'film', 'rustic', 'gold'); 
-    p.classList.add(s); 
-  }); 
-  document.querySelectorAll('[id^="style-"]').forEach(btn => btn.style.background = '');
-  const btnMap = { pol: 'style-polaroid', simple: 'style-simple', vintage: 'style-vintage', wide: 'style-wide', minimal: 'style-minimal', film: 'style-film', rustic: 'style-rustic', gold: 'style-gold' };
-  const btnId = btnMap[s];
-  if (btnId) document.getElementById(btnId).style.background = 'var(--accent)';
-  showToast(`Estilo: ${s}`); 
+
+function muralSetMoldura(estilo) {
+  muralMolduraAtual = estilo;
+  document.querySelectorAll('#canvas-mural .mural-foto .moldura').forEach(m => {
+    m.className = `moldura ${estilo}`;
+  });
+  showToast(`Moldura: ${estilo}`);
 }
-function muralSetWall(w, el) {
-  const colors = { wood: '#c8a070', brick: '#8B4030', white: '#f0f0f0', dark: '#222', green: '#3a6030', blue: '#1a3a6a', 'wood-dark': '#5a3a1a', stone: '#6a6a6a' };
-  document.getElementById('canvas-mural').style.background = colors[w] || '#c8a070';
+
+function muralSetWall(tipo, el) {
+  muralFundo = tipo;
+  const cores = { madeira: '#e8d4bc', tijolo: '#b87c5a', branco: '#f5f5f0', preto: '#2a2a2a', verde: '#5a7a4a', azul: '#4a6a8a' };
+  document.getElementById('canvas-mural').style.background = cores[tipo] || '#e8d4bc';
   document.querySelectorAll('.wall-btn').forEach(btn => btn.classList.remove('selected'));
   if (el) el.classList.add('selected');
 }
-function muralResize(sz) { 
-  muralSize = parseInt(sz); 
-  document.getElementById('mural-size-label').textContent = sz + 'px'; 
-  document.querySelectorAll('#canvas-mural .mural-photo').forEach(p => p.style.width = muralSize + 'px'); 
+
+function muralResize(sz) {
+  muralTamanho = parseInt(sz);
+  document.getElementById('mural-size-label').textContent = sz + 'px';
+  document.querySelectorAll('#canvas-mural .mural-foto').forEach(p => p.style.width = muralTamanho + 'px');
 }
+
 function muralAddText() {
   const canvas = document.getElementById('canvas-mural');
   const box = document.createElement('div');
@@ -1596,40 +1562,63 @@ function muralAddText() {
   canvas.appendChild(box);
   ta.focus();
 }
+
+function muralAtualizarFrase() {
+  muralFrase = document.getElementById('mural-frase').value;
+  document.getElementById('mural-frase-preview').innerText = muralFrase;
+}
+
 function muralDrop(e) { e.preventDefault(); muralAddFiles(e.dataTransfer.files); }
+
 function exportMuralPDF() {
   const { jsPDF } = window.jspdf;
   if (!jsPDF) { showToast('Erro: biblioteca PDF'); return; }
-  const photos = document.querySelectorAll('#canvas-mural .mural-photo');
-  if (photos.length === 0) { showToast('Adicione fotos primeiro!'); return; }
+  const fotos = document.querySelectorAll('#canvas-mural .mural-foto');
+  if (fotos.length === 0 && !muralFrase) { showToast('Adicione fotos ou uma frase!'); return; }
   showToast('Gerando PDF...');
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const W = 210, H = 297;
   
-  const wallColor = getComputedStyle(document.getElementById('canvas-mural')).backgroundColor;
-  doc.setFillColor(wallColor);
+  const coresFundo = { madeira: [232,212,188], tijolo: [184,124,90], branco: [245,245,240], preto: [42,42,42], verde: [90,122,74], azul: [74,106,138] };
+  const corFundo = coresFundo[muralFundo] || [232,212,188];
+  doc.setFillColor(...corFundo);
   doc.rect(0, 0, W, H, 'F');
   
-  photos.forEach((p, i) => {
-    const img = p.querySelector('img');
-    const left = parseFloat(p.style.left) || 20;
-    const top = parseFloat(p.style.top) || 40;
+  fotos.forEach((f, i) => {
+    const img = f.querySelector('img');
+    const left = parseFloat(f.style.left) || 30;
+    const top = parseFloat(f.style.top) || 40;
+    const legendaInput = f.querySelector('.legenda input');
+    const legenda = legendaInput ? legendaInput.value : '';
     if (img && img.src) {
       const x = 10 + left * 0.264;
       const y = 15 + top * 0.264;
-      const size = muralSize * 0.264;
-      try { 
-        doc.setFillColor(255,255,255);
-        doc.rect(x - 2, y - 2, size + 4, size + (p.classList.contains('wide') ? 25 : 10), 'F');
-        doc.addImage(img.src, 'JPEG', x, y, size, size);
-        doc.setDrawColor(139, 96, 64);
-        doc.setLineWidth(0.3);
-        doc.line(x + size/2, y - 8, x + size/2, y);
-        doc.setFillColor(170, 170, 170);
-        doc.circle(x + size/2, y - 10, 1.5, 'F');
-      } catch(e) {}
+      const size = muralTamanho * 0.264;
+      const corMoldura = { polaroid: [255,255,255], madeira: [222,184,135], dourada: [245,230,211], vintage: [240,230,208], filme: [17,17,17], rustica: [200,168,130], moderna: [255,255,255] }[muralMolduraAtual] || [255,255,255];
+      doc.setFillColor(...corMoldura);
+      doc.rect(x - 3, y - 3, size + 6, size + 18, 'F');
+      try { doc.addImage(img.src, 'JPEG', x, y, size, size); } catch(e) {}
+      if (legenda) {
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(7);
+        doc.setTextColor(100, 100, 100);
+        doc.text(legenda, x + size/2, y + size + 5, { align: 'center' });
+      }
+      doc.setDrawColor(160, 130, 100);
+      doc.setLineWidth(0.3);
+      doc.line(x + size/2, y - 8, x + size/2, y);
+      doc.setFillColor(170, 170, 170);
+      doc.circle(x + size/2, y - 10, 1.5, 'F');
     }
   });
+  
+  if (muralFrase) {
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(12);
+    doc.setTextColor(80, 60, 40);
+    doc.text(muralFrase, W/2, H - 20, { align: 'center' });
+  }
+  
   doc.save('mural.pdf');
   showToast('Mural exportado!');
 }
@@ -1668,20 +1657,17 @@ function exportLivrePDF() {
     const img = p.querySelector('img');
     const left = fotoPositions[i]?.left || parseFloat(p.style.left) || 20;
     const top = fotoPositions[i]?.top || parseFloat(p.style.top) || 30;
-    const frameId = fotoPositions[i]?.frame || currentFrame;
     if (img && img.src) {
       const x = 10 + left * 0.264;
       const y = 15 + top * 0.264;
       const size = 45;
-      try { 
-        doc.setFillColor(255,255,255);
-        doc.rect(x - 2, y - 2, size + 4, size + 12, 'F');
-        doc.addImage(img.src, 'JPEG', x, y, size, size);
-      } catch(e) {}
+      doc.setFillColor(255,255,255);
+      doc.rect(x - 2, y - 2, size + 4, size + 12, 'F');
+      try { doc.addImage(img.src, 'JPEG', x, y, size, size); } catch(e) {}
     }
   });
   doc.save('fotostudio-livre.pdf');
-  showToast('PDF salvo com as posições e molduras!');
+  showToast('PDF salvo!');
 }
 
 // ==================== INICIALIZAÇÃO ====================
@@ -1694,7 +1680,8 @@ buildFramesGrid('album-frames-grid', selectAlbumFrame);
 buildBgGrid('bg-grid', setCanvasBg);
 buildBgGrid('cal-bg-grid', setCalBg);
 buildMarcadorCats();
-showToast('FotoStúdio pronto! Todas as funcionalidades corrigidas!');
+muralAtualizarFrase();
+showToast('FotoStúdio pronto!');
 </script>
 </body>
 </html>
