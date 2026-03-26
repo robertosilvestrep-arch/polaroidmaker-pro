@@ -95,6 +95,7 @@ h1,h2,h3 { font-family: 'Playfair Display', serif; }
 .frame-film::before, .frame-film::after { content: ''; position: absolute; top: 10px; bottom: 10px; width: 12px; background: repeating-linear-gradient(to bottom, #222 0px, #222 8px, #444 8px, #444 16px); pointer-events: none; }
 .frame-film::before { left: 4px; }
 .frame-film::after { right: 4px; }
+.frame-film .polaroid-img-wrap { border: 2px solid #444; }
 .frame-vintage { background: #F0E6D0; padding: 10px 10px 36px; }
 .frame-rosa { background: #FDE8F0; padding: 10px 10px 36px; }
 .frame-azul { background: #E8F0FD; padding: 10px 10px 36px; }
@@ -214,7 +215,7 @@ h1,h2,h3 { font-family: 'Playfair Display', serif; }
 .marc-input { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; font-size: 12px; margin-bottom: 8px; }
 .marc-input:focus { outline: none; border-color: var(--accent); }
 
-/* MURAL - NOVO VISUAL COM MOLDURAS ESTILIZADAS */
+/* MURAL */
 .mural-layout { display: grid; grid-template-columns: 1fr 280px; gap: 20px; }
 #canvas-mural { position: relative; background: #e8d4bc; border-radius: 16px; overflow: auto; border: 2px solid #b09060; height: 550px; background-image: radial-gradient(circle at 10% 20%, rgba(0,0,0,0.03) 2%, transparent 2.5%); background-size: 28px 28px; }
 .mural-foto { position: absolute; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; user-select: none; background: transparent; }
@@ -411,7 +412,7 @@ input[type="file"] { display: none; }
         </div>
       </div>
 
-      <!-- MURAL - NOVO VISUAL COM MOLDURAS ESTILIZADAS -->
+      <!-- MURAL -->
       <div class="section" id="sec-mural">
         <div class="mural-layout">
           <div>
@@ -483,6 +484,7 @@ let currentCalFrame = 'frame-classic';
 let currentCalBg = '#F9F5EE';
 let currentLivreBg = '#F5F0E8';
 let currentAlbumFrame = 'frame-classic';
+let currentFolhinhaFrame = 'frame-classic';
 let muralFotos = [];
 let muralMolduraAtual = 'polaroid';
 let muralFrase = 'I never want to stop making memories with you';
@@ -527,16 +529,16 @@ const FRAMES = [
   { id: 'frame-madeira', label: 'Madeira', icon: '🪵', bg: '#8B5A2B' }
 ];
 
-// CATEGORIAS MARCADOR
+// CATEGORIAS MARCADOR COM ILUSTRAÇÕES
 const MARC_CATS = {
-  livre: { ribbon: '📚 Leitura', title: 'Minha Leitura', subtitle: '2026', quote: '"A leitura é a viagem dos que não podem tomar o trem."', icon: '📚' },
-  dragonball: { ribbon: '🐉 Dragon Ball', title: 'Dragon Ball Z', subtitle: 'Z Fighters', quote: '"Não importa o quão forte você seja, sempre há alguém maior."', icon: '🐉' },
-  onepiece: { ribbon: '🏴‍☠️ One Piece', title: 'One Piece', subtitle: 'Grand Line', quote: '"Eu vou ser o Rei dos Piratas!" — Luffy', icon: '🏴‍☠️' },
-  naruto: { ribbon: '🍥 Naruto', title: 'Naruto', subtitle: 'Konoha', quote: '"Nunca vou desistir — esse é meu nindo!"', icon: '🍥' },
-  pokemon: { ribbon: '⚡ Pokémon', title: 'Pokémon', subtitle: 'Gotta catch em all', quote: '"Eu vou ser o melhor mestre Pokémon!"', icon: '⚡' },
-  harry_potter: { ribbon: '⚡ HP', title: 'Harry Potter', subtitle: 'Hogwarts', quote: '"É nossa escolha que mostra o que realmente somos." — Dumbledore', icon: '⚡' },
-  starwars: { ribbon: '⚔ Star Wars', title: 'Star Wars', subtitle: 'May the Force', quote: '"Que a Força esteja com você."', icon: '⚔️' },
-  vingadores: { ribbon: '🦸 Vingadores', title: 'Vingadores', subtitle: 'Avengers', quote: '"Vingadores! Unidos!"', icon: '🦸' }
+  livre: { ribbon: '📚 Leitura', title: 'Minha Leitura', subtitle: '2026', quote: '"A leitura é a viagem dos que não podem tomar o trem."', icon: '📚', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#F9F5EE"/><rect x="20" y="20" width="60" height="80" fill="#fff" stroke="#C4602A"/><text x="50" y="60" text-anchor="middle" font-size="20" fill="#C4602A">📖</text></svg>' },
+  dragonball: { ribbon: '🐉 Dragon Ball', title: 'Dragon Ball Z', subtitle: 'Z Fighters', quote: '"Não importa o quão forte você seja, sempre há alguém maior."', icon: '🐉', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#FF8C00"/><circle cx="50" cy="55" r="25" fill="#FFD700" stroke="#FF4500"/><text x="50" y="65" text-anchor="middle" font-size="30" fill="#FF4500">⭐</text><text x="50" y="90" text-anchor="middle" font-size="10" fill="#000">Dragon Ball Z</text></svg>' },
+  onepiece: { ribbon: '🏴‍☠️ One Piece', title: 'One Piece', subtitle: 'Grand Line', quote: '"Eu vou ser o Rei dos Piratas!" — Luffy', icon: '🏴‍☠️', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#0a3060"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#FFD700">🏴‍☠️</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#FFD700">One Piece</text></svg>' },
+  naruto: { ribbon: '🍥 Naruto', title: 'Naruto', subtitle: 'Konoha', quote: '"Nunca vou desistir — esse é meu nindo!"', icon: '🍥', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#FF6600"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#000">🍥</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#000">Naruto</text></svg>' },
+  pokemon: { ribbon: '⚡ Pokémon', title: 'Pokémon', subtitle: 'Gotta catch em all', quote: '"Eu vou ser o melhor mestre Pokémon!"', icon: '⚡', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#FFD700"/><circle cx="50" cy="55" r="25" fill="#CC0000"/><text x="50" y="65" text-anchor="middle" font-size="30" fill="#FFD700">⚡</text><text x="50" y="90" text-anchor="middle" font-size="10" fill="#CC0000">Pokémon</text></svg>' },
+  harry_potter: { ribbon: '⚡ HP', title: 'Harry Potter', subtitle: 'Hogwarts', quote: '"É nossa escolha que mostra o que realmente somos." — Dumbledore', icon: '⚡', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#1a0a35"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#FFD700">⚡</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#FFD700">Harry Potter</text></svg>' },
+  starwars: { ribbon: '⚔ Star Wars', title: 'Star Wars', subtitle: 'May the Force', quote: '"Que a Força esteja com você."', icon: '⚔️', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#000"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#FFD700">⚔️</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#FFD700">Star Wars</text></svg>' },
+  vingadores: { ribbon: '🦸 Vingadores', title: 'Vingadores', subtitle: 'Avengers', quote: '"Vingadores! Unidos!"', icon: '🦸', svg: '<svg viewBox="0 0 100 120"><rect width="100" height="120" fill="#1a0a0a"/><text x="50" y="55" text-anchor="middle" font-size="40" fill="#CC0000">🦸</text><text x="50" y="85" text-anchor="middle" font-size="10" fill="#CC0000">Avengers</text></svg>' }
 };
 
 // ==================== FUNÇÕES AUXILIARES ====================
@@ -796,6 +798,11 @@ function selectAlbumFrame(frameId) {
   showToast(`Moldura do álbum: ${FRAMES.find(f => f.id === frameId)?.label || frameId}`);
 }
 
+function selectFolhinhaFrame(frameId) {
+  currentFolhinhaFrame = frameId;
+  showToast(`Moldura da folhinha: ${FRAMES.find(f => f.id === frameId)?.label || frameId}`);
+}
+
 // ==================== FUNDOS ====================
 function buildBgGrid(targetId, callback) {
   const grid = document.getElementById(targetId);
@@ -880,6 +887,7 @@ function drawPolaroidFrame(doc, x, y, w, h, frameId) {
   const frame = FRAMES.find(f => f.id === frameId);
   if (!frame) return;
   
+  // Fundo branco para a moldura
   doc.setFillColor(255, 255, 255);
   doc.rect(x, y, w, h, 'F');
   
@@ -905,6 +913,12 @@ function drawPolaroidFrame(doc, x, y, w, h, frameId) {
     doc.setFillColor(34, 34, 34);
     doc.rect(x+2, y+2, 5, h-4, 'F');
     doc.rect(x+w-7, y+2, 5, h-4, 'F');
+    // sprockets (perfurados)
+    for (let i = 0; i < 4; i++) {
+      doc.setFillColor(68, 68, 68);
+      doc.circle(x+4, y+12 + i*18, 1.2, 'F');
+      doc.circle(x+w-5, y+12 + i*18, 1.2, 'F');
+    }
   } else if (frameId === 'frame-vintage') {
     doc.setFillColor(240, 230, 208);
     doc.rect(x, y, w, h, 'F');
@@ -973,6 +987,7 @@ function exportCalendarioPDF() {
   const W = isPortrait ? 210 : 297;
   const H = isPortrait ? 297 : 210;
   
+  // Fundo
   if (currentCalBg && currentCalBg.startsWith('color:')) {
     const rgb = currentCalBg.replace('color:', '');
     doc.setFillColor(rgb);
@@ -988,7 +1003,6 @@ function exportCalendarioPDF() {
   
   const img0 = document.getElementById('cal-img-0')?.querySelector('img');
   const img1 = document.getElementById('cal-img-1')?.querySelector('img');
-  
   const frameId = currentCalFrame;
   
   if (isPortrait) {
@@ -1137,10 +1151,11 @@ function exportFolhinhaPDF() {
     doc.text(String(calYear), W / 2, 30, { align: 'center' });
     
     if (folhinhaPhotos[m]) {
-      drawPolaroidFrame(doc, W/2 - 40, 40, 80, 95, currentFrame);
+      drawPolaroidFrame(doc, W/2 - 40, 40, 80, 95, currentFolhinhaFrame);
       try { doc.addImage(folhinhaPhotos[m], 'JPEG', W/2 - 35, 45, 70, 70); } catch(e) {}
     }
     
+    // Calendário
     const firstDay = new Date(calYear, m, 1).getDay();
     const daysInMonth = new Date(calYear, m + 1, 0).getDate();
     let y = 140;
@@ -1159,6 +1174,7 @@ function exportFolhinhaPDF() {
       }
     }
     
+    // Marcas de grampo
     doc.setFillColor(120, 112, 100);
     doc.circle(15, 15, 1.5, 'F');
     doc.circle(W - 15, 15, 1.5, 'F');
@@ -1724,14 +1740,13 @@ function exportMuralPDF() {
       const y = 15 + top * 0.264;
       const size = muralTamanho * 0.264;
       // Moldura
-      const molduraEstilo = muralMolduraAtual;
       let molduraCor = [255,255,255];
-      if (molduraEstilo === 'madeira') molduraCor = [222,184,135];
-      else if (molduraEstilo === 'dourada') molduraCor = [245,230,211];
-      else if (molduraEstilo === 'vintage') molduraCor = [240,230,208];
-      else if (molduraEstilo === 'filme') molduraCor = [17,17,17];
-      else if (molduraEstilo === 'rustica') molduraCor = [200,168,130];
-      else if (molduraEstilo === 'moderna') molduraCor = [255,255,255];
+      if (muralMolduraAtual === 'madeira') molduraCor = [222,184,135];
+      else if (muralMolduraAtual === 'dourada') molduraCor = [245,230,211];
+      else if (muralMolduraAtual === 'vintage') molduraCor = [240,230,208];
+      else if (muralMolduraAtual === 'filme') molduraCor = [17,17,17];
+      else if (muralMolduraAtual === 'rustica') molduraCor = [200,168,130];
+      else if (muralMolduraAtual === 'moderna') molduraCor = [255,255,255];
       else molduraCor = [255,255,255];
       doc.setFillColor(...molduraCor);
       doc.rect(x - 3, y - 3, size + 6, size + 18, 'F');
